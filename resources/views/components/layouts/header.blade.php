@@ -102,13 +102,34 @@
 
         <!-- Conteúdo central -->
         <div class="text-center mt-9 pb-1">
-            <h1 class=" font-extrabold tracking-wider drop-shadow-lg">
-                <span class="text-6xl hidden md:inline">Portal SISTEC</span>
-                <span class="text-3xl inline md:hidden">Portal SISTEC</span>
+
+            {{-- TÍTULO --}}
+            <h1 class="font-extrabold tracking-wider drop-shadow-lg">
+
+                {{-- Desktop --}}
+                <span class="text-6xl hidden md:inline">
+                    <i class="fa-solid fa-fire-extinguisher text-6xl"></i>
+                    Portal SISTEC
+                </span>
+
+                {{-- Mobile --}}
+                <span class="text-3xl inline md:hidden">
+                    <i class="fa-solid fa-fire-extinguisher"></i>
+                    Portal SISTEC
+                </span>
+
             </h1>
 
-            <p class="mt-4 text-sm opacity-90" id="dataAtual"></p>
+            {{-- SUBTÍTULO --}}
+            <p class="mt-2 text-sm md:text-base font-medium">
+                Certificações · Análise de Projeto · Credenciamento · Parque de Diversão · Atividades Eventuais
+            </p>
+
+            {{-- DATA --}}
+            <p class="mt-3 text-sm opacity-90" id="dataAtual"></p>
+
         </div>
+
     </div>
 </header>
 

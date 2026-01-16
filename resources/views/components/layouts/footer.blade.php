@@ -70,7 +70,7 @@
     </div>
 
     <!-- LINHA FINAL -->
-    <div class="text-center text-xs py-4 text-gray-300 border-t border-gray-500">
+    <div class="text-center text-xs py-4 border-t border-gray-500">
         &copy; {{ date('Y') }} Corpo de Bombeiros Militar do Amapá — Todos os direitos reservados.
         
         <div class="flex justify-center gap-6 mt-6">
