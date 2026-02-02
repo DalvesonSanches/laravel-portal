@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Guest;
 
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -73,6 +73,6 @@ class RedefinirSenha extends Component
 
     public function render()
     {
-        return view('livewire.redefinir-senha');
+        return view('livewire.guest.redefinir-senha');
     }
 }

@@ -8,7 +8,7 @@ use Livewire\Attributes\Layout;
 use Illuminate\Database\Eloquent\Builder;
 use TallStackUi\Traits\Interactions;
 
-#[Layout('layouts.app')]
+#[Layout('layouts.auth')]
 
 class UserIndex extends Component
 {

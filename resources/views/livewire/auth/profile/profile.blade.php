@@ -1,4 +1,4 @@
-<x-app-layout>
+<div class="py-5">
     <x-slot:title>
         Perfil
     </x-slot:title>
@@ -64,5 +64,5 @@
 
         </div>
     </div>
-</x-app-layout>
+</div>
 

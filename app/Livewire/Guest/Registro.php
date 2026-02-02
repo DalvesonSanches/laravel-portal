@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Guest;
 
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -121,6 +121,6 @@ class Registro extends Component
 
     public function render()
     {
-        return view('livewire.registro');
+        return view('livewire.guest.registro');
     }
 }

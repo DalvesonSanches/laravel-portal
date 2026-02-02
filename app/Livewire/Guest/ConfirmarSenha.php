@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Guest;
 
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -45,6 +45,6 @@ class ConfirmarSenha extends Component
 
     public function render()
     {
-        return view('livewire.confirmar-senha');
+        return view('livewire.guest.confirmar-senha');
     }
 }

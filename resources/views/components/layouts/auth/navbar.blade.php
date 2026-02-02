@@ -32,7 +32,7 @@
                         <x-dropdown.items
                             icon="document-plus"
                             text="Nova Solicitação"
-                            href="{{ route('dashboard') }}"
+                            href="{{ route('solicitacoes.create') }}"
                             wire:navigate
                         />
                         <x-dropdown.items
@@ -149,7 +149,7 @@
                 <!-- Itens -->
                 <div x-show="openServices" x-transition class="pl-6 space-y-2">
 
-                    <a wire:navigate href="{{ route('dashboard') }}"
+                    <a wire:navigate href="{{ route('solicitacoes.create') }}"
                     class="flex items-center gap-2 px-2 py-1 rounded-md
                             hover:bg-gray-200 dark:hover:bg-gray-600">
                         <i class="fa-solid fa-file-circle-plus w-4 text-center"></i>

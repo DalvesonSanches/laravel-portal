@@ -1,4 +1,4 @@
-<x-app-layout>
+<div>
     <x-slot:title>
         Dashboard
     </x-slot:title>
@@ -28,7 +28,7 @@
 
                 <!-- CARD: NOVA SOLICITAÇÃO -->
                 <x-card class="flex flex-col items-center justify-center text-center p-6 space-y-3 hover:shadow-lg transition rounded-2xl cursor-pointer"
-                    wire:navigate href="{{ route('dashboard') }}"> 
+                    wire:navigate href="{{ route('solicitacoes.create') }}"> 
                     <i class="fa-solid fa-file-circle-plus text-5xl text-blue-500" > </i>
                     <h2 class="text-2xl font-semibold ">Nova Solicitação</h2>
                     <p">
@@ -49,7 +49,7 @@
                 <!-- CARD: MEU PERFIL -->
                 <x-card class="flex flex-col items-center justify-center text-center p-6 space-y-3 hover:shadow-lg transition rounded-2xl cursor-pointer"
                     wire:navigate href="{{ route('profile') }}">
-                    <i class="fa-solid fa-user text-5xl text-yellow-500" > </i>
+                    <i class="fa-solid fa-user text-5xl text-cyan-950" > </i>
                     <h2 class="text-2xl font-semibold">Meu Perfil</h2>
                     <p>
                         Clique para gerenciar suas informações cadastrais.
@@ -58,4 +58,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</div>

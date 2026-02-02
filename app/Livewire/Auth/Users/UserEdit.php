@@ -8,7 +8,7 @@ use Livewire\Attributes\Layout;
 use Illuminate\Validation\ValidationException;
 use TallStackUi\Traits\Interactions;
 
-#[Layout('layouts.app')]
+#[Layout('layouts.auth')]
 class UserEdit extends Component
 {
     use Interactions;

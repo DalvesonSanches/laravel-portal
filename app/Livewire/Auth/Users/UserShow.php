@@ -6,7 +6,7 @@ use Livewire\Component;
 use App\Models\User;
 use Livewire\Attributes\Layout;
 
-#[Layout('layouts.app')]
+#[Layout('layouts.auth')]
 
 class UserShow extends Component
 {

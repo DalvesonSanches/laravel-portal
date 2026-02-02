@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Livewire\Auth;
+namespace App\Livewire\Auth\Profile;
 
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+
 #[Layout('layouts.auth')]
 
-class Dashboard extends Component
+class Profile extends Component
 {
     public function render()
     {
-        return view('livewire.auth.dashboard');
+        return view('livewire.auth.profile.profile');
     }
 }

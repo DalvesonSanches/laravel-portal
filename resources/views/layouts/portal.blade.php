@@ -39,7 +39,7 @@
 
          <x-dialog />
         {{-- Cabeçalho --}}
-        <x-layouts.header />
+        <x-layouts.portal.header />
 
         {{-- Navbar responsiva com tema --}}
         {{--  <x-layouts.navbar /> --}}
@@ -50,7 +50,7 @@
         </main>
 
         {{-- Rodapé --}}
-        <x-layouts.footer />
+        <x-layouts.portal.footer />
 
         @livewireScripts
     </body>

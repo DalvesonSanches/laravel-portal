@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Guest;
 
 use App\Models\User;
 use Livewire\Component;
@@ -46,6 +46,6 @@ class VerificarEmail extends Component
 
     public function render()
     {
-        return view('livewire.verificar-email');
+        return view('livewire.guest.verificar-email');
     }
 }
