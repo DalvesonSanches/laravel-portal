@@ -20,6 +20,7 @@
                             wire:click="$dispatch('abrir-responsaveis', { solicitacaoId: {{ $row->id }} })"
                             color="blue"
                         />
+                        {{--icone--}}
                         <x-button.circle
                             icon="share"
                             color="cyan"
