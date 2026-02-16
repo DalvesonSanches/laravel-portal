@@ -45,6 +45,7 @@
 
 
     {{-- Dialog global --}}
+    <x-toast />
     <x-dialog />
 
     {{-- Navbar --}}

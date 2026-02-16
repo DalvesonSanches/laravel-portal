@@ -39,6 +39,7 @@
 
         {{-- Componente de dialogo --}}
         <x-dialog />
+        <x-toast />
         
         {{-- Cabeçalho --}}
         <x-layouts.portal.header />

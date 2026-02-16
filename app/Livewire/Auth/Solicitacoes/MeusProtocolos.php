@@ -30,7 +30,7 @@ class MeusProtocolos extends Component
     public function mount()
     {
         $this->headers = [
-            ['index' => 'data_solicitacao_formatada', 'label' => 'Data'],
+            //['index' => 'data_solicitacao_formatada', 'label' => 'Data'],
             ['index' => 'num_protocolo', 'label' => 'Protocolo'],
             ['index' => 'status', 'label' => 'Status'],
             ['index' => 'empresa_razao_social', 'label' => 'Empresa'],

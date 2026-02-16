@@ -38,6 +38,7 @@
                 bg-gray-50 text-gray-900
                 dark:bg-gray-900 dark:text-gray-100">
         {{-- Componente de dialogo --}}
+        <x-toast />
         <x-dialog />
 
         {{-- Conteúdo principal --}}
