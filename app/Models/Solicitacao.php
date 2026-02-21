@@ -7,34 +7,22 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Solicitacao extends Model
 {
-    /**
-     * Tabela com schema (PostgreSQL)
-     */
+    //Tabela com schema (PostgreSQL)
     protected $table = 'sistec.solicitacaos';
 
-    /**
-     * Chave primária
-     */
+    //Chave primária
     protected $primaryKey = 'id';
 
-    /**
-     * Tipo da chave primária
-     */
+    //Tipo da chave primária
     protected $keyType = 'int';
 
-    /**
-     * Auto incremento
-     */
+    //Auto incremento
     public $incrementing = true;
 
-    /**
-     * Timestamps
-     */
+    //Timestamps
     public $timestamps = true;
 
-    /**
-     * Campos liberados para mass assignment
-     */
+    //campos liberados para mass assignment
     protected $fillable = [
         'data_solicitacao',
         'empresas_id',
@@ -60,9 +48,7 @@ class Solicitacao extends Model
         'endereco_estado',
         'endereco_complemento',
         'endereco_cep',
-        'classes_glp_id',
         'natureza_juridicas_id',
-        'solicitantes_id',
         'tipo',
         'perguntas',
         'prestador_servico',
@@ -86,9 +72,7 @@ class Solicitacao extends Model
         'servicos_subtipos_id',
     ];
 
-    /**
-     * Casts (muito importantes no PostgreSQL)
-     */
+    //Casts (muito importantes no PostgreSQL)
     protected $casts = [
         'data_solicitacao'           => 'date',
         'data_envio'                 => 'datetime',
@@ -102,6 +86,54 @@ class Solicitacao extends Model
         'updated_at'                 => 'datetime',
     ];
 
+    //relacionamento belongsTo (um inner join automatico)
+    /**
+         * Parâmetros:
+         * 1. O Model de destino
+         * 2. A coluna FK que está na tabela 'solicitacoes' (ex: empresa_fk)
+         * 3. A coluna PK que está na tabela de destino (ex: cod_empresa)
+     */
+    public function LocalAtendimentos()//local de atendimento
+    {
+        return $this->belongsTo(LocalAtendimentos::class, 'local_atendimentos_id', 'id');
+    }
+
+    public function UnidadeVistoriantes()//unidades de vistotia
+    {
+        return $this->belongsTo(UnidadeVistoriantes::class, 'unidade_vistoriantes_id', 'id');
+    }
+
+    public function Servico()//serviço selecionado
+    {
+        return $this->belongsTo(Servico::class, 'servicos_id', 'id');
+    }
+
+    public function NaturezaJuridicas()//Natureza juridica
+    {
+        return $this->belongsTo(NaturezaJuridicas::class, 'natureza_juridicas_id', 'id');
+    }
+
+    public function tipoAltura()// Relacionamento 1: Altura da Edificação
+    {
+        return $this->belongsTo(ItemTipos::class, 'itens_tipos_alt_edificacao_id', 'id');
+    }
+
+    public function tipoCarga()// Relacionamento 2: Cargas
+    {
+        return $this->belongsTo(ItemTipos::class, 'itens_tipos_cargas_id', 'id');
+    }
+
+    public function tipoOcupacao()// Relacionamento 3: Ocupações
+    {
+        return $this->belongsTo(ItemTipos::class, 'itens_tipos_ocupacoes_id', 'id');
+    }
+
+     public function ServicoSubtipo()// Subtipo do serviço
+    {
+        return $this->belongsTo(ServicoSubtipo::class, 'servicos_subtipos_id', 'id');
+    }
+    
+
     //formata o campo data_solicitacao para dd/mm/yyyy saindo como data_solicitacao_formatada
     protected function dataSolicitacaoFormatada(): Attribute
     {
@@ -112,5 +144,20 @@ class Solicitacao extends Model
         );
     }
 
+    //formata o status para uma frase use como status_label
+    protected function statusLabel(): \Illuminate\Database\Eloquent\Casts\Attribute
+    {
+        return \Illuminate\Database\Eloquent\Casts\Attribute::get(function () {
+            return match ($this->status) {
+                'AA'    => 'Aguardando Atendimento',
+                'EA'    => 'Em Atendimento',
+                'AP'    => 'Aguardando Pagamento',
+                'E'     => 'Encerrado',
+                'AE'    => 'Aguardando Envio',
+                'C'     => 'Cancelado',
+                default => $this->status,
+            };
+        });
+    }
 
 }

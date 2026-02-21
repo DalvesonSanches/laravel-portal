@@ -12,6 +12,7 @@ use App\Livewire\Guest\VerificarEmail;
 
 use App\Livewire\Auth\Solicitacoes\MeusProtocolos;
 use App\Livewire\Auth\Solicitacoes\SolicitacoesCreate;
+use App\Livewire\Auth\Solicitacoes\SolicitacaoShow;
 use App\Livewire\Auth\Dashboard;
 use App\Livewire\Auth\Profile\Profile;
 use App\Livewire\Auth\Users\UserIndex;
@@ -35,6 +36,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/meus-protocolos', MeusProtocolos::class)->name('meus-protocolos');//blade de meus protocolos
     Route::get('/solicitacoes', SolicitacoesCreate::class)->name('solicitacoes.create');//formulario de criação da solicitacao
+    Route::get('/solicitacoes/{solicitacaoId}', SolicitacaoShow::class)->name('solicitacoes-show');//exibição em abas da solicitacao
     Route::get('/dashboard', Dashboard::class)->name('dashboard');//dashboard apos login
     Route::get('/profile', Profile::class)->name('profile');//perfil do usuario
     Route::get('/users', UserIndex::class)->name('users.index');//listagem dos usuarios

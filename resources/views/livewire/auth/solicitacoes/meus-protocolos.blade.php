@@ -12,7 +12,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-1 space-y-6">
         <x-card>
             {{-- montagem tabela --}}
-            <x-table :$headers :$rows striped filter loading>
+            <x-table :$headers :$rows striped filter="search" paginate loading>
                 {{-- quebra de linha nas colunas --}}
                 @interact('column_status', $row)
                     <div class="block w-25 whitespace-normal wrap-break-word py-2">
@@ -40,12 +40,14 @@
                 {{-- barra de aççoes --}}
                 @interact('column_action', $row)
                     <div class="flex gap-2">
+                        {{--abre o show da solicitacao--}}
                        <x-button.circle
                             icon="eye"
-                            wire:click="$dispatch('abrir-responsaveis', { solicitacaoId: {{ $row->id }} })"
+                            wire:navigate
+                            href="{{ route('solicitacoes-show', $row->id) }}"
                             color="blue"
                         />
-                        {{--abrindo um modal--}}
+                        {{--abrindo um modal de responsaveis--}}
                         <x-button.circle
                             icon="share"
                             color="cyan"
@@ -53,6 +55,7 @@
                         />
                         <x-button.circle
                             icon="pencil"
+                            wire:navigate
                             href="{{ route('dashboard', $row->id) }}"
                             color="yellow"
                         />
@@ -66,10 +69,12 @@
                 @endinteract
             </x-table>
 
-            {{-- Paginação --}}
+            {{-- Paginação manual--}}
+            {{--
             <div class="mt-4">
                 {{ $rows->links() }}
             </div>
+        --}}
         </x-card>
     </div>
 
