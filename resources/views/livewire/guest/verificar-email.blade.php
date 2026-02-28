@@ -4,7 +4,7 @@
         Verificação de e-mail – Portal de Serviços Técnicos
     </x-slot:title>
 
-    <x-card class="w-full max-w-lg p-6 space-y-5">
+    <x-card class="w-full max-w-lg p-6 space-y-5" header=" Verificação de e-mail - Portal SISTEC" color="cyan" bordered>
 
         {{-- 1️⃣ Logo CBMAP --}}
         <div class="flex justify-center">
@@ -14,11 +14,6 @@
                 class="h-30"
             >
         </div>
-
-        {{-- 2️⃣ Título --}}
-        <h1 class="text-2xl font-bold text-center">
-            Verificação de e-mail - Portal SISTEC
-        </h1>
 
         {{-- Mensagem principal --}}
         <x-alert>

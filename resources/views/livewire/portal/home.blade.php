@@ -15,7 +15,7 @@
 
         {{-- Card 2 --}}
         <x-card class="flex flex-col items-center justify-center text-center p-6 space-y-3 hover:shadow-lg transition rounded-2xl cursor-pointer"
-            wire:navigate href="{{ route('home') }}">
+            wire:navigate href="{{ route('protocolo-consulta') }}">
             <i class="fas fa-search text-5xl text-yellow-500" > </i>
             <h2 class="text-2xl font-semibold">Consultar Protocolo</h2>
             <p>
@@ -35,7 +35,7 @@
 
         {{-- Card 2 --}}
         <x-card class="flex flex-col items-center justify-center text-center p-6 space-y-3 hover:shadow-lg transition rounded-2xl cursor-pointer"
-            wire:navigate href="{{ route('home') }}">
+            wire:navigate href="{{ route('empresas-regularizadas') }}">
             <i class="fa-solid fa-building text-5xl text-shadow-dark-800" > </i>
             <h2 class="text-2xl font-semibold">Empresas Regularizadas</h2>
             <p>

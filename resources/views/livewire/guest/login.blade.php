@@ -3,7 +3,7 @@
         Acesso ao portral de serviços técnicos
     </x-slot:title>
 
-    <x-card class="w-full max-w-md p-6 space-y-4">
+    <x-card class="w-full max-w-md p-6 space-y-4" header="Login - Portal SISTEC" color="cyan" bordered>
 
         {{-- 1️⃣ Logo CBMAP --}}
         <div class="flex justify-center">
@@ -13,11 +13,6 @@
                 class="h-30"
             >
         </div>
-
-        {{-- 2️⃣ Título --}}
-        <h1 class="text-2xl font-bold text-center">
-            Login - Portal SISTEC
-        </h1>
 
         {{-- 3️⃣ Primeiro acesso --}}
         <p class="text-center text-sm ">

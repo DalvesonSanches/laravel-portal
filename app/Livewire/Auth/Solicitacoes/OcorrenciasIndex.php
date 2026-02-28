@@ -5,7 +5,6 @@ namespace App\Livewire\Auth\Solicitacoes;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Ocorrencias;
-use Illuminate\Support\Facades\DB;
 
 class OcorrenciasIndex extends Component
 {
@@ -18,12 +17,12 @@ class OcorrenciasIndex extends Component
 
     public array $headers = [];
 
-    public ?int $solicitacaoId = null;
+    public ?string $numProtocolo = null;
 
-    public function mount(?int $solicitacaoId = null): void
+    public function mount(?string $numProtocolo = null): void
     {
-        $this->solicitacaoId = $solicitacaoId;
 
+        $this->numProtocolo = $numProtocolo;
         $this->headers = [
             ['index' => 'tipo_data', 'label' => 'Tipo'],
             ['index' => 'descricao', 'label' => 'Descrição'],
@@ -38,37 +37,20 @@ class OcorrenciasIndex extends Component
     public function render()
     {
         $rows = Ocorrencias::query()
-            ->select([
-                'ocorrencias.id',
-                DB::raw("
-                    tipo_ocorrencias.tipo || ' em: ' || 
-                    TO_CHAR(ocorrencias.data_ocorrencia, 'DD/MM/YYYY') 
-                    AS tipo_data
-                "),
-                'ocorrencias.descricao'
-            ])
-            ->join(
-                'sistec.tipo_ocorrencias',
-                'ocorrencias.tipo_ocorrencias_id',
-                '=',
-                'tipo_ocorrencias.id'
-            )
-            ->join(
-                'sistec.solicitacaos',
-                'ocorrencias.num_protocolo',
-                '=',
-                'solicitacaos.num_protocolo'
-            )
-            ->where('solicitacaos.id', $this->solicitacaoId)
+            ->with('TipoOcorrencias') // 🔥 aqui está o belongsTo
 
-            ->when($this->search, function ($query) {
+            ->where('num_protocolo', $this->numProtocolo) //condição
+
+            ->when($this->search, function ($query) { //search
                 $query->where(function ($q) {
-                    $q->where('ocorrencias.descricao', 'ilike', "%{$this->search}%")
-                      ->orWhere('tipo_ocorrencias.tipo', 'ilike', "%{$this->search}%");
+                    $q->where('descricao', 'ilike', "%{$this->search}%")
+                    ->orWhereHas('TipoOcorrencias', function ($tipo) {
+                        $tipo->where('tipo', 'ilike', "%{$this->search}%");
+                    });
                 });
             })
 
-            ->paginate($this->quantity);
+            ->paginate($this->quantity); //paginação
 
         return view('livewire.auth.solicitacoes.ocorrencias-index', [
             'rows' => $rows

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Str;
 
 class Solicitacao extends Model
 {
@@ -70,6 +71,7 @@ class Solicitacao extends Model
         'itens_tipos_cargas_id',
         'itens_tipos_ocupacoes_id',
         'servicos_subtipos_id',
+        'autenticidade',
     ];
 
     //Casts (muito importantes no PostgreSQL)
@@ -85,6 +87,17 @@ class Solicitacao extends Model
         'created_at'                 => 'datetime',
         'updated_at'                 => 'datetime',
     ];
+
+    //gerra uuid na coluna autenticidade
+    /*
+    protected static function booted()
+    {
+        static::creating(function ($solicitacao) {
+            // Gera o UUID comum (v4) automaticamente antes de salvar
+            $solicitacao->autenticidade = (string) Str::uuid();
+        });
+    }
+    */
 
     //relacionamento belongsTo (um inner join automatico)
     /**

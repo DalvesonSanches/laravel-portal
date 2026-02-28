@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Portal\Home;
+use App\Livewire\Portal\SolicitacaoConsulta;
+use App\Livewire\Portal\EmpresasRegularizadas;
 
 use App\Livewire\Guest\Login;
 use App\Livewire\Guest\Registro;
@@ -36,7 +38,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/meus-protocolos', MeusProtocolos::class)->name('meus-protocolos');//blade de meus protocolos
     Route::get('/solicitacoes', SolicitacoesCreate::class)->name('solicitacoes.create');//formulario de criação da solicitacao
-    Route::get('/solicitacoes/{solicitacaoId}', SolicitacaoShow::class)->name('solicitacoes-show');//exibição em abas da solicitacao
+    Route::get('/solicitacoes/{autenticidade}', SolicitacaoShow::class)->name('solicitacoes-show');//exibição da solicitacao em abas readonly false
     Route::get('/dashboard', Dashboard::class)->name('dashboard');//dashboard apos login
     Route::get('/profile', Profile::class)->name('profile');//perfil do usuario
     Route::get('/users', UserIndex::class)->name('users.index');//listagem dos usuarios
@@ -51,3 +53,6 @@ Route::get('/', Home::class) ->name('home');
 Route::get('/home', Home::class) ->name('home');
 Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)->middleware(['auth', 'signed', 'throttle:6,1'])->name('verification.verify');//rota padrao do laravel
 Route::get('/verify-email', VerificarEmail::class)->middleware('auth')->name('verification.notice');
+Route::get('/consulta/solicitacoes/{autenticidade}', SolicitacaoShow::class)->name('solicitacoes-show-public');//exibição da solcitacao em abas readonly true
+Route::get('/consulta/protocolo', SolicitacaoConsulta::class) ->name('protocolo-consulta');//consulta do protocolo
+Route::get('/consulta/empresas/regularizadas', EmpresasRegularizadas::class) ->name('empresas-regularizadas');//consulta de empresas regularizadas

@@ -68,7 +68,7 @@
                             shadow-lg z-50"
                     >
                         <a wire:navigate
-                        href="{{ route('home') }}"
+                        href="{{ route('login') }}"
                         class="block px-4 py-2 text-sm
                                 text-gray-800 dark:text-gray-200
                                 hover:bg-gray-300 dark:hover:bg-gray-500
@@ -78,7 +78,7 @@
                         </a>
 
                         <a wire:navigate
-                        href="{{ route('home') }}"
+                        href="{{ route('protocolo-consulta') }}"
                         class="block px-4 py-2 text-sm
                                 text-gray-800 dark:text-gray-200
                                 hover:bg-gray-300 dark:hover:bg-gray-500
@@ -98,7 +98,7 @@
                         </a>
 
                         <a wire:navigate
-                        href="{{ route('home') }}"
+                        href="{{ route('empresas-regularizadas') }}"
                         class="block px-4 py-2 text-sm
                                 text-gray-800 dark:text-gray-200
                                 hover:bg-gray-300 dark:hover:bg-gray-500
@@ -213,13 +213,13 @@
                 <!-- Itens -->
                 <div x-show="openServices" x-transition class="pl-6 space-y-2">
 
-                    <a wire:navigate href="{{ route('home') }}"
+                    <a wire:navigate href="{{ route('login') }}"
                     class="flex items-center gap-2 text-sm hover:text-primary-200">
                         <i class="fa-solid fa-file-circle-plus w-4 text-center"></i>
                         Solicitar Serviço
                     </a>
 
-                    <a wire:navigate href="{{ route('home') }}"
+                    <a wire:navigate href="{{ route('protocolo-consulta') }}"
                     class="flex items-center gap-2 text-sm hover:text-primary-200">
                         <i class="fas fa-search w-4 text-center"></i>
                         Consultar Protocolo
@@ -231,7 +231,7 @@
                         Atendimento Digital
                     </a>
 
-                    <a wire:navigate href="{{ route('home') }}"
+                    <a wire:navigate href="{{ route('empresas-regularizadas') }}"
                     class="flex items-center gap-2 text-sm hover:text-primary-200">
                         <i class="fa-solid fa-building w-4 text-center"></i>
                         Empresas Regularizadas

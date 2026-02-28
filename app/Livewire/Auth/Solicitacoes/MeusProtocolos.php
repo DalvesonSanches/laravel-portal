@@ -100,6 +100,7 @@ class MeusProtocolos extends Component
                 "),
                 'solicitacaos.empresa_razao_social',
                 'solicitacaos.empresa_cpf_cnpj',
+                'solicitacaos.autenticidade',
                 DB::raw("
                     trim(
                         solicitacaos.endereco_logradouro || ' ' ||

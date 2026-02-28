@@ -44,7 +44,7 @@
                        <x-button.circle
                             icon="eye"
                             wire:navigate
-                            href="{{ route('solicitacoes-show', $row->id) }}"
+                            href="{{ route('solicitacoes-show', $row->autenticidade) }}"
                             color="blue"
                         />
                         {{--abrindo um modal de responsaveis--}}

@@ -3,7 +3,7 @@
         Novo usuário portral de serviços técnicos
     </x-slot:title>
 
-    <x-card class="w-full max-w-lg p-6 space-y-5">
+    <x-card class="w-full max-w-lg p-6 space-y-5" header="Novo usuário - Portal SISTEC" color="cyan" bordered>
 
         {{-- 1️⃣ Logo CBMAP --}}
         <div class="flex justify-center">
@@ -13,11 +13,6 @@
                 class="h-30"
             >
         </div>
-
-        {{-- 2️⃣ Título --}}
-        <h1 class="text-2xl font-bold text-center">
-            Novo usuário - Portal SISTEC
-        </h1>
 
         <form wire:submit.prevent="register" class="space-y-4">
 

@@ -3,7 +3,7 @@
         Redefinir senha portral de serviços técnicos
     </x-slot:title>
 
-    <x-card class="w-full max-w-lg p-6 space-y-5">
+    <x-card class="w-full max-w-lg p-6 space-y-5" header="Recuperar senha - Portal SISTEC" color="cyan" bordered>
         {{-- 1️⃣ Logo CBMAP --}}
             <div class="flex justify-center">
                 <img
@@ -13,13 +13,8 @@
                 >
             </div>
 
-            {{-- 2️⃣ Título --}}
-            <h1 class="text-2xl font-bold text-center">
-                Redefinir senha - Portal SISTEC
-            </h1>
-
         <div class="mb-4 text-sm ">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+            {{ __('Esqueceu sua senha? Sem problema. Basta nos informar seu endereço de e-mail e enviaremos um link para redefinição de senha, que permitirá que você escolha uma nova.') }}
         </div>
 
         <!-- Session Status -->

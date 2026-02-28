@@ -1,5 +1,5 @@
 <div>
-    <x-card class="w-full p-6 space-y-6">
+    <x-card class="w-full p-6 space-y-6" header="Confirmar senha - Portal SISTEC" color="cyan" bordered>
         <div class="mb-4 text-sm text-gray-600">
             {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
         </div>

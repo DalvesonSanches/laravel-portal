@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Ocorrencias extends Model
+class Alvaras extends Model
 {
-    //Nome da tabela com schema (PostgreSQL)
-    protected $table = 'sistec.ocorrencias';
+   //Nome da tabela com schema (PostgreSQL)
+    protected $table = 'sistec.alvaras';
     //Chave primária
     protected $primaryKey = 'id';
     //Tipo da chave primária
@@ -16,26 +16,32 @@ class Ocorrencias extends Model
     public $timestamps = true;
     //Campos que podem ser preenchidos em massa
     protected $fillable = [
-       'tipo_ocorrencias_id',
-       'num_protocolo',
-       'data_ocorrencia',
-       'descricao',
+       'num_alvara',
+       'data_expedicao',
+       'data_validade',
+       'solicitacaos_id',
+       'empresas_id',
+       'relatorio_vistorias_id',
+       'num_autenticacao',
+       'situacao',
+       'tipo_alvara',
     ];
     //Casts (muito importantes no PostgreSQL)
     protected $casts = [
-        'data_ocorrencia'            =>'datetime',
         'created_at'                 => 'datetime',
         'updated_at'                 => 'datetime',
+        'data_expedicao'             =>  'date',	
+        'data_validade'              =>  'date',
     ];
-     //relacionamento belongsTo (um inner join automatico)
+    //relacionamento belongsTo (um inner join automatico)
     /**
          * Parâmetros:
          * 1. O Model de destino
          * 2. A coluna FK que está na tabela 'solicitacoes' (ex: empresa_fk)
          * 3. A coluna PK que está na tabela de destino (ex: cod_empresa)
      */
-    public function TipoOcorrencias()//tipo da ocorrencia
+    public function solicitacao()//solicitacao
     {
-        return $this->belongsTo(TipoOcorrencias::class, 'tipo_ocorrencias_id', 'id');
+        return $this->belongsTo(Solicitacao::class, 'solicitacaos_id', 'id');
     }
 }

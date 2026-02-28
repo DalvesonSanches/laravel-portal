@@ -10,7 +10,7 @@ return new class extends Migration
     public function up(): void
     {
         // Garante que o schema exista
-        DB::statement('CREATE SCHEMA IF NOT EXISTS sistec');
+        DB::statement('CREATE SCHEMA IF NOT EXISTS portal');
 
         Schema::create('portal.users', function (Blueprint $table) {
             $table->id();

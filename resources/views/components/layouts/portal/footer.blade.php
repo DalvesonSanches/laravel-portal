@@ -1,5 +1,5 @@
 <footer class="bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
-    <div class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+    <div class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr] gap-10">
 
         <!-- COLUNA 1 - INSTITUCIONAL -->
         <div>
@@ -52,15 +52,57 @@
 
                 <li class="flex items-center gap-2">
                     <i class="fa-solid fa-file-circle-plus text-primary-600"></i>
-                    <a wire:navigate href="{{ route('home') }}" class="hover:underline">
-                        Nova Certidão
+                    <a wire:navigate href="{{ route('login') }}" class="hover:underline">
+                        Solicitar serviço
                     </a>
                 </li>
 
                 <li class="flex items-center gap-2">
                     <i class="fa-solid fa-magnifying-glass text-primary-600"></i>
-                    <a wire:navigate href="{{ route('home') }}" class="hover:underline">
-                        Consultar Certidão
+                    <a wire:navigate href="{{ route('protocolo-consulta') }}" class="hover:underline">
+                        Consultar protocolo
+                    </a>
+                </li>
+
+                 <li class="flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-primary-600"></i>
+                    <a wire:navigate href="{{ route('empresas-regularizadas') }}" class="hover:underline">
+                        Atendimento Digital
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+        <!-- COLUNA 3 - ACESSO -->
+        <div>
+            <ul class="space-y-2 text-sm mt-10">
+
+                <li class="flex items-center gap-2">
+                    <i class="fa-solid fa-building text-primary-600"></i>
+                    <a wire:navigate href="{{ route('empresas-regularizadas') }}" class="hover:underline">
+                        Empresas regularizadas
+                    </a>
+                </li>
+
+                <li class="flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation text-primary-600"></i>
+                    <a wire:navigate href="{{ route('login') }}" class="hover:underline">
+                        Verificar autenticidade
+                    </a>
+                </li>
+
+                <li class="flex items-center gap-2">
+                    <i class="fa-solid fa-scale-balanced text-primary-600"></i>
+                    <a wire:navigate href="{{ route('protocolo-consulta') }}" class="hover:underline">
+                        Leis e normas
+                    </a>
+                </li>
+
+                 <li class="flex items-center gap-2">
+                    <i class="fa-solid fa-fire-extinguisher text-primary-600"></i>
+                    <a wire:navigate href="{{ route('empresas-regularizadas') }}" class="hover:underline">
+                        Empresas credenciadas
                     </a>
                 </li>
 
