@@ -38,7 +38,7 @@
                         <x-dropdown.items
                             icon="magnifying-glass"
                             text="Meus Protocolos"
-                            href="{{ route('meus-protocolos') }}"
+                            href="{{ route('meus.protocolos') }}"
                             wire:navigate separator
                         />
                     </x-dropdown>
@@ -57,9 +57,9 @@
                             wire:navigate
                         />
                         <x-dropdown.items
-                            icon="magnifying-glass"
-                            text="Meus Protocolos"
-                            href="{{ route('dashboard') }}"
+                            icon="arrow-down-tray"
+                            text="Downloads"
+                            href="{{ route('downloads.index') }}"
                             wire:navigate separator
                         />
                     </x-dropdown>
@@ -156,7 +156,7 @@
                         Nova Solicitação
                     </a>
 
-                    <a wire:navigate href="{{ route('meus-protocolos') }}"
+                    <a wire:navigate href="{{ route('meus.protocolos') }}"
                     class="flex items-center gap-2 px-2 py-1 rounded-md
                             hover:bg-gray-200 dark:hover:bg-gray-600">
                         <i class="fa-solid fa-magnifying-glass w-4 text-center"></i>
@@ -196,11 +196,11 @@
                         Usuários
                     </a>
 
-                    <a wire:navigate href="{{ route('dashboard') }}"
+                    <a wire:navigate href="{{ route('downloads.index') }}"
                     class="flex items-center gap-2 px-2 py-1 rounded-md
                             hover:bg-gray-200 dark:hover:bg-gray-600">
-                        <i class="fa-solid fa-magnifying-glass w-4 text-center"></i>
-                        Meus Protocolos
+                        <i class="fa-solid fa-download w-4 text-center"></i>
+                        Downloads
                     </a>
 
                 </div>

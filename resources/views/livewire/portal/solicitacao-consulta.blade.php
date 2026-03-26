@@ -1,6 +1,6 @@
 <div class="flex justify-center">
     <x-slot:title>
-        Acesso ao portral de serviços técnicos
+        Consultar protocolo
     </x-slot:title>
 
     <x-card class="w-full max-w-md p-6 space-y-4 " header="Consultar protocolo" color="green" bordered>

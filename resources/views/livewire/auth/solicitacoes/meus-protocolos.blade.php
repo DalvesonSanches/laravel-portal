@@ -15,25 +15,25 @@
             <x-table :$headers :$rows striped filter="search" paginate loading>
                 {{-- quebra de linha nas colunas --}}
                 @interact('column_status', $row)
-                    <div class="block w-25 whitespace-normal wrap-break-word py-2">
+                    <div class="block w-25 whitespace-normal wrap-break-word text-justify">
                         {{ $row->status }}
                     </div>
                 @endinteract
 
                 @interact('column_endereco', $row)
-                    <div class="block w-60 whitespace-normal wrap-break-word py-2">
+                    <div class="block w-60 whitespace-normal wrap-break-word text-justify">
                         {{ $row->endereco }}
                     </div>
                 @endinteract
 
                 @interact('column_empresa_razao_social', $row)
-                    <div class="block w-40 whitespace-normal wrap-break-word py-2">
+                    <div class="block w-40 whitespace-normal wrap-break-word text-justify">
                         {{ $row->empresa_razao_social }}
                     </div>
                 @endinteract
 
                 @interact('column_nome_servico', $row)
-                    <div class="block w-48 whitespace-normal wrap-break-word py-2">
+                    <div class="block w-48 whitespace-normal wrap-break-word text-justify">
                         {{ $row->nome_servico }}
                     </div>
                 @endinteract
@@ -44,7 +44,7 @@
                        <x-button.circle
                             icon="eye"
                             wire:navigate
-                            href="{{ route('solicitacoes-show', $row->autenticidade) }}"
+                            href="{{ route('solicitacoes.show', $row->autenticidade) }}"
                             color="blue"
                         />
                         {{--abrindo um modal de responsaveis--}}

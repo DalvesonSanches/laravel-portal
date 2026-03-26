@@ -4,37 +4,42 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Alvaras extends Model
+class Relatorios extends Model
 {
-   //Nome da tabela com schema (PostgreSQL)
-    protected $table = 'sistec.alvaras';
+    //Tabela com schema (PostgreSQL)
+    protected $table = 'sistec.relatorios';
+
     //Chave primária
     protected $primaryKey = 'id';
+
     //Tipo da chave primária
     protected $keyType = 'int';
+
+    //Auto incremento
+    public $incrementing = true;
+
     //Timestamps
     public $timestamps = true;
-    //Campos que podem ser preenchidos em massa
+
+    //campos liberados para mass assignment
     protected $fillable = [
-       'num_alvara',
-       'data_expedicao',
-       'data_validade',
-       'solicitacaos_id',
-       'empresas_id',
-       'relatorio_vistorias_id',
-       'num_autenticacao',
-       'situacao',
-       'tipo_alvara',
-       'nome_arquivo',
-       'relatorios_id',
+        'numero',	
+        'numero_ocorrencia',	
+        'data_inicio',	
+        'data_fim',
+        'nome_arquivo',	
+        'numero_autenticacao',	
+        'solicitacaos_id',
     ];
+
     //Casts (muito importantes no PostgreSQL)
     protected $casts = [
         'created_at'                 => 'datetime',
         'updated_at'                 => 'datetime',
-        'data_expedicao'             =>  'date',	
-        'data_validade'              =>  'date',
+        'data_fim'                 => 'datetime',
+        'data_inicio'                 => 'datetime',
     ];
+
     //relacionamento belongsTo (um inner join automatico)
     /**
          * Parâmetros:
@@ -42,13 +47,8 @@ class Alvaras extends Model
          * 2. A coluna FK que está na tabela 'solicitacoes' (ex: empresa_fk)
          * 3. A coluna PK que está na tabela de destino (ex: cod_empresa)
      */
-    public function solicitacao()//solicitacao
+    public function Solicitacao()//solicitacoes
     {
         return $this->belongsTo(Solicitacao::class, 'solicitacaos_id', 'id');
-    }
-    
-    public function empresa()
-    {
-        return $this->belongsTo(Empresas::class, 'empresas_id', 'id');
     }
 }

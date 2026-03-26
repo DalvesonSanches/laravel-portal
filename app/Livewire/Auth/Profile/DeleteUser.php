@@ -10,7 +10,7 @@ use TallStackUi\Traits\Interactions;
 
 class DeleteUser extends Component
 {
-    //
+    //usa o dialogo
     use Interactions;
 
     public string $password = '';

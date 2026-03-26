@@ -44,7 +44,7 @@ class SolicitacaoShow extends Component
         |--------------------------------------------------------------------------
         */
 
-        if (Route::currentRouteNamed('solicitacoes-show-public')) {
+        if (Route::currentRouteNamed('solicitacoes.show.public')) {
             $this->readonly = true;
             return;
         }

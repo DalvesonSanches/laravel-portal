@@ -15,7 +15,7 @@
 
         {{-- Card 2 --}}
         <x-card class="flex flex-col items-center justify-center text-center p-6 space-y-3 hover:shadow-lg transition rounded-2xl cursor-pointer"
-            wire:navigate href="{{ route('protocolo-consulta') }}">
+            wire:navigate href="{{ route('protocolo.consulta') }}">
             <i class="fas fa-search text-5xl text-yellow-500" > </i>
             <h2 class="text-2xl font-semibold">Consultar Protocolo</h2>
             <p>
@@ -35,7 +35,7 @@
 
         {{-- Card 2 --}}
         <x-card class="flex flex-col items-center justify-center text-center p-6 space-y-3 hover:shadow-lg transition rounded-2xl cursor-pointer"
-            wire:navigate href="{{ route('empresas-regularizadas') }}">
+            wire:navigate href="{{ route('empresas.regularizadas') }}">
             <i class="fa-solid fa-building text-5xl text-shadow-dark-800" > </i>
             <h2 class="text-2xl font-semibold">Empresas Regularizadas</h2>
             <p>
@@ -45,7 +45,7 @@
 
         {{-- Card 1 --}}
         <x-card class="flex flex-col items-center justify-center text-center p-6 space-y-3 hover:shadow-lg transition rounded-2xl cursor-pointer"
-            wire:navigate href="{{ route('login') }}"> 
+            wire:navigate href="{{ route('autenticidades.consultas') }}"> 
             <i class="fa-solid fa-triangle-exclamation text-5xl text-red-500" > </i>
             <h2 class="text-2xl font-semibold ">Verificar Autenticação</h2>
             <p">
@@ -75,7 +75,7 @@
 
         {{-- Card 2 --}}
         <x-card class="flex flex-col items-center justify-center text-center p-6 space-y-3 hover:shadow-lg transition rounded-2xl cursor-pointer"
-            wire:navigate href="{{ route('home') }}">
+            wire:navigate href="{{ route('credenciamentos.consultas') }}">
             <i class="fa-solid fa-fire-extinguisher text-5xl text-orange-500" > </i>
             <h2 class="text-2xl font-semibold">Empresas Credenciadas</h2>
             <p>
@@ -85,7 +85,7 @@
 
         {{-- Card 1 --}}
         <x-card class="flex flex-col items-center justify-center text-center p-6 space-y-3 hover:shadow-lg transition rounded-2xl cursor-pointer"
-            wire:navigate href="{{ route('login') }}"> 
+            wire:navigate href="{{ route('downloads.consultas') }}"> 
             <i class="fa-solid fa-download text-5xl text-gray-500" > </i>
             <h2 class="text-2xl font-semibold ">Downloads</h2>
             <p">

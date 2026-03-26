@@ -16,9 +16,15 @@ class SolicitacaoConsulta extends Component
     use Interactions;
 
     //campos publicos com validação
-    #[Validate('required', message: 'Informe o CNPJ ou CPF do protocolo')]
+    #[Validate('required|min:14', message: [
+    'required' => 'Informe o CNPJ ou CPF do protocolo',
+    'min' => 'O campo deve ter pelo menos 11 caracteres'
+    ])]
     public ?string $cpfCnpj = null;
-    #[Validate('required', message: 'Informe o número do protocolo da solicitação')]
+    #[Validate('required|min:11', message: [
+    'required' => 'Informe o número do protocolo da solicitação',
+    'min' => 'O campo deve ter pelo menos 11 caracteres'
+    ])]
     public ?string $numProtocolo = null;
 
     public function pesquisar()//função pesquisar
@@ -44,7 +50,7 @@ class SolicitacaoConsulta extends Component
 
         //se encontrou redireciona enviando o autenticidade como paramentro
         return redirect()->route(
-            'solicitacoes-show-public',
+            'solicitacoes.show.public',
             $solicitacao->autenticidade
         );
     }

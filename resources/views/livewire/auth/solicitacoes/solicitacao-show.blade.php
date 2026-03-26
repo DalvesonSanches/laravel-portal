@@ -26,7 +26,7 @@
                                 icon="arrow-left"
                                 color="yellow"
                                 wire:navigate
-                                href="{{ route('meus-protocolos') }}"
+                                href="{{ route('meus.protocolos') }}"
                             >
                                 Voltar
                             </x-button>
@@ -35,7 +35,7 @@
                                 icon="printer"
                                 color="orange"
                                 wire:navigate
-                                href="{{ route('meus-protocolos') }}"
+                                href="{{ route('meus.protocolos') }}"
                             >
                                 Protocolo
                             </x-button>
@@ -44,7 +44,7 @@
                                 icon="check"
                                 color="green"
                                 wire:navigate
-                                href="{{ route('meus-protocolos') }}"
+                                href="{{ route('meus.protocolos') }}"
                             >
                                 Enviar processo
                             </x-button>

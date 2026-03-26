@@ -59,14 +59,14 @@
 
                 <li class="flex items-center gap-2">
                     <i class="fa-solid fa-magnifying-glass text-primary-600"></i>
-                    <a wire:navigate href="{{ route('protocolo-consulta') }}" class="hover:underline">
+                    <a wire:navigate href="{{ route('protocolo.consulta') }}" class="hover:underline">
                         Consultar protocolo
                     </a>
                 </li>
 
                  <li class="flex items-center gap-2">
                     <i class="fa-brands fa-whatsapp text-primary-600"></i>
-                    <a wire:navigate href="{{ route('empresas-regularizadas') }}" class="hover:underline">
+                    <a wire:navigate href="{{ route('empresas.regularizadas') }}" class="hover:underline">
                         Atendimento Digital
                     </a>
                 </li>
@@ -80,28 +80,28 @@
 
                 <li class="flex items-center gap-2">
                     <i class="fa-solid fa-building text-primary-600"></i>
-                    <a wire:navigate href="{{ route('empresas-regularizadas') }}" class="hover:underline">
+                    <a wire:navigate href="{{ route('empresas.regularizadas') }}" class="hover:underline">
                         Empresas regularizadas
                     </a>
                 </li>
 
                 <li class="flex items-center gap-2">
                     <i class="fa-solid fa-triangle-exclamation text-primary-600"></i>
-                    <a wire:navigate href="{{ route('login') }}" class="hover:underline">
+                    <a wire:navigate href="{{ route('autenticidades.consultas') }}" class="hover:underline">
                         Verificar autenticidade
                     </a>
                 </li>
 
                 <li class="flex items-center gap-2">
                     <i class="fa-solid fa-scale-balanced text-primary-600"></i>
-                    <a wire:navigate href="{{ route('protocolo-consulta') }}" class="hover:underline">
+                    <a wire:navigate href="{{ route('protocolo.consulta') }}" class="hover:underline">
                         Leis e normas
                     </a>
                 </li>
 
                  <li class="flex items-center gap-2">
                     <i class="fa-solid fa-fire-extinguisher text-primary-600"></i>
-                    <a wire:navigate href="{{ route('empresas-regularizadas') }}" class="hover:underline">
+                    <a wire:navigate href="{{ route('credenciamentos.consultas') }}" class="hover:underline">
                         Empresas credenciadas
                     </a>
                 </li>

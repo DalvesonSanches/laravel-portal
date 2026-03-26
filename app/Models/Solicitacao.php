@@ -146,6 +146,10 @@ class Solicitacao extends Model
         return $this->belongsTo(ServicoSubtipo::class, 'servicos_subtipos_id', 'id');
     }
     
+    public function alvaras()
+    {
+        return $this->hasMany(Alvaras::class, 'solicitacaos_id', 'id');
+    }
 
     //formata o campo data_solicitacao para dd/mm/yyyy saindo como data_solicitacao_formatada
     protected function dataSolicitacaoFormatada(): Attribute

@@ -38,7 +38,7 @@ class EmpresasRegularizadas extends Component
         $this->resetPage();
     }
 
-      public function render()
+    public function render()
     {
         $rows = Alvaras::query()
             ->with('solicitacao') // eager loading correto
@@ -47,7 +47,7 @@ class EmpresasRegularizadas extends Component
 
             ->whereDate('data_validade', '>=', Carbon::today()) //data hoje
 
-            //busca usando unaccent
+            //busca usando unaccentg
             ->when($this->search, function ($query) {
 
             $search = "%{$this->search}%";
