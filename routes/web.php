@@ -35,45 +35,45 @@ use App\Livewire\Auth\LogoutController;
 // --- ÁREA PÚBLICA LOGIN (GUEST) ---
 // Usuário logado NÃO consegue ver essas páginas
 Route::middleware('guest')->group(function () {
-    Route::get('/login', Login::class)->name('login');//login
-    Route::get('/registro', Registro::class)->name('registro');//novo usuario
-    Route::get('/recuperar-senha', RecuperarSenha::class)->name('password.request');//recuperar senha
-    Route::get('/reset-password/{token}', RedefinirSenha::class)->name('password.reset');//redefinir senha
-    Route::get('/confirm-password', ConfirmarSenha::class)->name('password.confirm');//confirmar senha
+    Route::get('/portal/login', Login::class)->name('login');//login
+    Route::get('/portal/registro', Registro::class)->name('registro');//novo usuario
+    Route::get('/portal/recuperar-senha', RecuperarSenha::class)->name('password.request');//recuperar senha
+    Route::get('/portal/reset-password/{token}', RedefinirSenha::class)->name('password.reset');//redefinir senha
+    Route::get('/portal/confirm-password', ConfirmarSenha::class)->name('password.confirm');//confirmar senha
 });
 
 // --- ÁREA RESTRITA LOGADO (AUTH) ---
 // Usuário deslogado NÃO consegue ver essas páginas
 Route::middleware('auth')->group(function () {
     
-    Route::get('/meus-protocolos', MeusProtocolos::class)->name('meus.protocolos');//blade de meus protocolos
-    Route::get('/solicitacoes', SolicitacoesCreate::class)->name('solicitacoes.create');//formulario de criação da solicitacao
-    Route::get('/solicitacoes/{autenticidade}', SolicitacaoShow::class)->name('solicitacoes-show');//exibição da solicitacao em abas readonly false
-    Route::get('/dashboard', Dashboard::class)->name('dashboard');//dashboard apos login
-    Route::get('/profile', Profile::class)->name('profile');//perfil do usuario
-    Route::get('/downloads', DownloadsIndex::class)->name('downloads.index');//blade de downloads de anexos
-    Route::get('/downloads/create', DownloadsForm::class)->name('downloads.create');//create do dowload
-    Route::get('/downloads/{downloads}', DownloadsShow::class)->name('downloads.show');//exibir registro download
-    Route::get('/downloads/{downloads}/edit', DownloadsForm::class)->name('downloads.edit');//edit do download
+    Route::get('/painel/solicitacao/index', MeusProtocolos::class)->name('meus.protocolos');//blade de meus protocolos
+    Route::get('/painel/solicitacao/create', SolicitacoesCreate::class)->name('solicitacoes.create');//formulario de criação da solicitacao
+    Route::get('/painel/solicitacao/show/{autenticidade}', SolicitacaoShow::class)->name('solicitacoes.show');//exibição da solicitacao em abas readonly false
+    Route::get('/painel/dashboard/index', Dashboard::class)->name('dashboard');//dashboard apos login
+    Route::get('/painel/perfil/index', Profile::class)->name('profile');//perfil do usuario
+    Route::get('/painel/download/index', DownloadsIndex::class)->name('downloads.index');//blade de downloads de anexos
+    Route::get('/paienl/download/create', DownloadsForm::class)->name('downloads.create');//create do dowload
+    Route::get('/painel/download/show/{downloads}', DownloadsShow::class)->name('downloads.show');//exibir registro download
+    Route::get('/painel/download/edit/{downloads}', DownloadsForm::class)->name('downloads.edit');//edit do download
     
-    Route::get('/users', UserIndex::class)->name('users.index');//listagem dos usuarios
-    Route::get('/users/{user}', UserShow::class)->name('users.show');//exibir usuario
-    Route::get('/users/{user}/edit', UserEdit::class)->name('users.edit');//edit do usuairo
-    Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');//sair do sistema
+    Route::get('/painel/users/index', UserIndex::class)->name('users.index');//listagem dos usuarios
+    Route::get('/painel/users/show/{user}', UserShow::class)->name('users.show');//exibir usuario
+    Route::get('/painel/users/edit/{user}', UserEdit::class)->name('users.edit');//edit do usuairo
+    Route::post('/painel/logout', [LogoutController::class, 'logout'])->name('logout');//sair do sistema
 });
 
 // --- ÁREA PUBLICA PORTAL ---
 // Usuário deslogado consegue ver essas páginas
 Route::get('/', Home::class) ->name('home');
-Route::get('/home', Home::class) ->name('home');
-Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)->middleware(['auth', 'signed', 'throttle:6,1'])->name('verification.verify');//rota padrao do laravel
-Route::get('/verify-email', VerificarEmail::class)->middleware('auth')->name('verification.notice');
-Route::get('/consulta/solicitacoes/{autenticidade}', SolicitacaoShow::class)->name('solicitacoes.show.public');//exibição da solcitacao em abas readonly true, rota do qrcode de solicitacoes
-Route::get('/consulta/protocolo', SolicitacaoConsulta::class) ->name('protocolo.consulta');//consulta do protocolo
-Route::get('/consulta/empresas/regularizadas', EmpresasRegularizadas::class) ->name('empresas.regularizadas');//consulta de empresas regularizadas
-Route::get('/consulta/downloads', DownloadsConsulta::class) ->name('downloads.consultas');//consulta de arquivos para downloads
-Route::get('/consulta/credenciamentos', EmpresasCredenciadasConsulta::class) ->name('credenciamentos.consultas');//consulta de credenciamentos
-Route::get('/consulta/autenticidades', AutenticidadesConsulta::class) ->name('autenticidades.consultas');//consulta de autenticidade
-Route::get('/consulta/autenticidades/certificacoes/{codigo}', AutenticidadesConsultaCertificacoes::class) ->name('autenticidades.certificacoes');//consulta de autenticidade de certificacao, rota tambem qrcode
-Route::get('/consulta/autenticidades/relatorios/{codigo}', AutenticidadesConsultaRelatorios::class) ->name('autenticidades.relatorios');//consulta de autenticidade de relatorios, rota tambem qrcode
-Route::get('/consulta/autenticidades/declaracoes/{codigo}', AutenticidadesConsultaDeclaracoes::class) ->name('autenticidades.declaracoes');//consulta de autenticidade de declaracoes, rota tambem qrcode
+Route::get('/portal/home/index', Home::class) ->name('home');
+Route::get('/portal/verify-email/{id}/{hash}', VerifyEmailController::class)->middleware(['auth', 'signed', 'throttle:6,1'])->name('verification.verify');//rota padrao do laravel
+Route::get('/portal/verify-email', VerificarEmail::class)->middleware('auth')->name('verification.notice');
+Route::get('/portal/consulta/solicitacoes/show/{autenticidade}', SolicitacaoShow::class)->name('solicitacoes.show.public');//exibição da solcitacao em abas readonly true, rota do qrcode de solicitacoes
+Route::get('/portal/consulta/protocolo', SolicitacaoConsulta::class) ->name('protocolo.consulta');//consulta do protocolo
+Route::get('/portal/consulta/empresas/regularizadas/index', EmpresasRegularizadas::class) ->name('empresas.regularizadas');//consulta de empresas regularizadas
+Route::get('/portal/consulta/downloads/index', DownloadsConsulta::class) ->name('downloads.consultas');//consulta de arquivos para downloads
+Route::get('/portal/consulta/credenciamentos/index', EmpresasCredenciadasConsulta::class) ->name('credenciamentos.consultas');//consulta de credenciamentos
+Route::get('/portal/consulta/autenticidades/index', AutenticidadesConsulta::class) ->name('autenticidades.consultas');//consulta de autenticidade
+Route::get('/portal/consulta/autenticidades/certificacoes/{codigo}', AutenticidadesConsultaCertificacoes::class) ->name('autenticidades.certificacoes');//consulta de autenticidade de certificacao, rota tambem qrcode
+Route::get('/portal/consulta/autenticidades/relatorios/{codigo}', AutenticidadesConsultaRelatorios::class) ->name('autenticidades.relatorios');//consulta de autenticidade de relatorios, rota tambem qrcode
+Route::get('/portal/consulta/autenticidades/declaracoes/{codigo}', AutenticidadesConsultaDeclaracoes::class) ->name('autenticidades.declaracoes');//consulta de autenticidade de declaracoes, rota tambem qrcode

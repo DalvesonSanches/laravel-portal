@@ -20,6 +20,8 @@ class Ocorrencias extends Model
        'num_protocolo',
        'data_ocorrencia',
        'descricao',
+       'usuarios_id',
+       'usuario_lotacao',
     ];
     //Casts (muito importantes no PostgreSQL)
     protected $casts = [

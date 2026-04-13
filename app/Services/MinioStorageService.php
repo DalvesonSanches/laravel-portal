@@ -47,4 +47,10 @@ class MinioStorageService
         if (!$path) return null;
         return $this->getDisk($bucket)->temporaryUrl($path, now()->addMinutes(30));
     }
+
+    public function existe(string $bucket, string $path): bool
+    {
+        return $this->getDisk($bucket)->exists($path);
+    }
+
 }

@@ -5,6 +5,7 @@ namespace App\Livewire\Auth\Solicitacoes;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Ocorrencias;
+use Livewire\Attributes\On; // atributo para gerar eventos listeners
 
 class OcorrenciasIndex extends Component
 {
@@ -34,13 +35,16 @@ class OcorrenciasIndex extends Component
         $this->resetPage();
     }
 
+    // usa o atributo para gerar um evento que refresh de pagina O Livewire detecta o evento e re-executa a query no render()
+    #[On('refresh-ocorrencias')] 
+    public function refresh(){}
+
     public function render()
     {
         $rows = Ocorrencias::query()
             ->with('TipoOcorrencias') // 🔥 aqui está o belongsTo
-
             ->where('num_protocolo', $this->numProtocolo) //condição
-
+            ->orderBy('id', 'desc') 
             ->when($this->search, function ($query) { //search
                 $query->where(function ($q) {
                     $q->where('descricao', 'ilike', "%{$this->search}%")
@@ -49,9 +53,7 @@ class OcorrenciasIndex extends Component
                     });
                 });
             })
-
             ->paginate($this->quantity); //paginação
-
         return view('livewire.auth.solicitacoes.ocorrencias-index', [
             'rows' => $rows
         ]);

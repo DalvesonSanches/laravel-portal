@@ -73,9 +73,23 @@ class MeusProtocolos extends Component
         ];
     }
 
+    //reset na busca
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+    //abri a solicitacao
+    public function visualizar(string $autenticidade)
+    {
+        // A chave deve ser 'autenticidade' para casar com {autenticidade} da sua URI
+        return $this->redirectRoute('solicitacoes.show', ['autenticidade' => $autenticidade], navigate: true);
+    }
+
+    // alterar a solicitacao
+    public function editar(int $id)
+    {
+        return $this->redirectRoute('dashboard', ['id' => $id], navigate: true);
     }
 
     public function render()

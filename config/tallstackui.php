@@ -242,7 +242,7 @@ return [
             'z-index' => 'z-50',
             'overflow' => false,
             'blur' => false,
-            'persistent' => false,
+            'persistent' => true,
             'size' => '2xl',
             'center' => false,
             'scrollable' => false,

@@ -40,7 +40,7 @@
                 <x-card class="flex flex-col items-center justify-center text-center p-6 space-y-3 hover:shadow-lg transition rounded-2xl cursor-pointer"
                     wire:navigate href="{{ route('meus.protocolos') }}">
                     <i class="fas fa-search text-5xl text-yellow-500" > </i>
-                    <h2 class="text-2xl font-semibold">Meus Protocolo</h2>
+                    <h2 class="text-2xl font-semibold">Meus Protocolos</h2>
                     <p>
                         Clique para consultar todos os seus protocolos.
                     </p>

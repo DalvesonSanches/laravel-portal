@@ -48,7 +48,7 @@
         {{--  <x-layouts.navbar /> --}}
 
         {{-- Conteúdo principal --}}
-        <main class="flex-1 max-w-7xl mx-auto px-4 py-6">
+        <main class="flex-1 w-full max-w-7xl mx-auto px-4 py-6">
             {{ $slot }}
         </main>
 

@@ -30,19 +30,29 @@ class DownloadsConsulta extends Component
         ];
     }
 
-    // Gera a URL temporária para o arquivo no MinIO
-    public function getDownloadUrl(int $id, MinioStorageService $service): ?string
-    {
-        $download = Downloads::find($id);
-        if (!$download || !$download->arquivo_path) return null;
-
-        return $service->url('portal-bucket', $download->arquivo_path);
-    }
-
     // reseta a busca
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+     // Método para processar o download
+    public function download(int $id, MinioStorageService $storageService)
+    {
+        $download = Downloads::findOrFail($id);
+        $bucket = 'portal-bucket';
+        $caminhoNoMinio = $download->arquivo_path;
+        // 1. Validar se o arquivo realmente existe no MinIO
+        if (!$storageService->existe($bucket, $caminhoNoMinio)) {
+            // Se NÃO existir, dispara o Dialog e encerra a função
+            return $this->dialog()
+                ->error('Erro de Arquivo', 'O arquivo físico não foi encontrado no servidor Storage.')
+                ->send();
+        }
+        // 2. Se existir, gera a URL
+        $url = $storageService->url($bucket, $caminhoNoMinio);
+        // 3. Abre em nova aba
+        return $this->js("window.open('$url', '_blank')");
     }
     
     public function render()

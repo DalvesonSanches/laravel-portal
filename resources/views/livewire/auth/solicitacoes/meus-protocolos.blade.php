@@ -39,31 +39,38 @@
                 @endinteract
                 {{-- barra de aççoes --}}
                 @interact('column_action', $row)
-                    <div class="flex gap-2">
-                        {{--abre o show da solicitacao--}}
-                       <x-button.circle
+                   <div class="flex gap-2" wire:loading.class="opacity-50 pointer-events-none"> {{-- Esmaece os botões ao carregar --}}
+                        {{--botao show da solicitacao--}}
+                        <x-button.circle
                             icon="eye"
-                            wire:navigate
-                            href="{{ route('solicitacoes.show', $row->autenticidade) }}"
+                            wire:click="visualizar('{{ $row->autenticidade }}')"
+                            wire:loading.attr="disabled"
                             color="blue"
+                            title="Abrir este protocolo"
                         />
-                        {{--abrindo um modal de responsaveis--}}
+                        {{--botao modal de responsaveis--}}
                         <x-button.circle
                             icon="share"
                             color="cyan"
                             wire:click="$dispatch('abrir-solicitacao-responsaveis', { solicitacaoId: {{ $row->id }} })"
+                            wire:loading.attr="disabled"
+                            title="Ver responsaveis deste protocolo"
                         />
+                        {{--botao de alterar--}}
                         <x-button.circle
                             icon="pencil"
-                            wire:navigate
-                            href="{{ route('dashboard', $row->id) }}"
+                            wire:click="editar({{ $row->id }})"
+                            wire:loading.attr="disabled"
                             color="yellow"
+                            title="Alterar este protocolo"
                         />
-
+                        {{--botao delete--}}
                         <x-button.circle
                             icon="trash"
                             wire:click="abrir('{{ $row->id }}')"
                             color="red"
+                            wire:loading.attr="disabled"
+                            title="Apagar este protocolo"
                         />
                     </div>
                 @endinteract
@@ -80,4 +87,5 @@
 
     {{-- componente do modal--}}
    <livewire:auth.solicitacoes.solicitacao-responsaveis-index />
+
 </div>

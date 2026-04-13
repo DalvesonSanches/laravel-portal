@@ -19,17 +19,14 @@
                     </div>
                 @endinteract
 
+                {{-- Coluna de Ação com ícone de download --}}
                 @interact('column_action', $dowloads)
-                    <div class="flex gap-2">
-                        {{-- Botão de "Print/Download" --}}
-                        @if($dowloads->arquivo_path)
-                            <x-button.circle 
-                                icon="printer" 
-                                href="{{ $this->getDownloadUrl($dowloads->id, app(App\Services\MinioStorageService::class)) }}" 
-                                target="_blank" 
-                                color="cyan" 
-                                title="Ver/Imprimir Arquivo" />
-                        @endif
+                    <div class="flex items-center justify-center">
+                        <x-button.circle icon="cloud-arrow-down" 
+                                        color="blue" 
+                                        wire:click="download({{ $dowloads->id }})" 
+                                        wire:loading.attr="disabled"
+                                        title="Baixar Arquivo" />
                     </div>
                 @endinteract
             </x-table>
