@@ -33,7 +33,7 @@
                 @endinteract
 
                 @interact('column_nome_servico', $row)
-                    <div class="block w-48 whitespace-normal wrap-break-word text-justify">
+                    <div class="block w-37 whitespace-normal wrap-break-word text-justify">
                         {{ $row->nome_servico }}
                     </div>
                 @endinteract

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" 
-      x-data="tallstackui_darkTheme()" 
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+      x-data="tallstackui_darkTheme()"
       x-bind:class="{ 'dark': darkTheme }">
     <head>
         <meta charset="utf-8">
@@ -26,10 +26,10 @@
         </script>
 
         <!-- Scripts do TallStackUI e Vite -->
-        <tallstackui:script /> 
+        <tallstackui:script />
         @livewireStyles
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        
+
         <title>{{ isset($title) ? $title . ' | portal de serviços técnicos CBMAP' : 'DISCIP | CBMAP' }}</title>
     </head>
 
@@ -40,7 +40,7 @@
         {{-- Componente de dialogo --}}
         <x-dialog />
         <x-toast />
-        
+
         {{-- Cabeçalho --}}
         <x-layouts.portal.header />
 

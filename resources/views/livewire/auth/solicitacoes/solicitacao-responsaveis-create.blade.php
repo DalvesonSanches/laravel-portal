@@ -7,7 +7,7 @@
 
                     <!-- CPF -->
                     <div class="w-72"> {{-- largura fixa elegante --}}
-                        <x-input 
+                        <x-input
                             label="CPF"
                             wire:model="cpf"
                             x-mask="999.999.999-99"
@@ -20,8 +20,8 @@
 
                     <!-- Botão com loading livewire -->
                     <div class="pt-6"> {{-- alinha com o campo --}}
-                        <x-button 
-                            color="cyan" 
+                        <x-button round
+                            color="cyan"
                             icon="magnifying-glass"
                             wire:click="buscarCpf"
                             loading="buscarCpf"
@@ -63,9 +63,10 @@
 
         <x-slot name="footer">
             {{--botoes alinhado a esqueda com açoes--}}
-            <div class="w-full flex justify-start gap-x-4">
-                <x-button 
-                    icon="arrow-left" 
+            <div class="w-full mb-4 flex flex-col sm:flex-row gap-2">
+                <x-button round
+                    class="w-full sm:w-auto justify-center" {{-- Ajusta largura no mobile --}}
+                    icon="arrow-left"
                     color="yellow"
                     x-on:click="$modalClose('solicitacao-responsaveis-create')"
                 >
@@ -73,8 +74,9 @@
                 </x-button>
 
                 {{--botao salvar com loading no botao--}}
-                <x-button 
-                    icon="check" 
+                <x-button round
+                    class="w-full sm:w-auto justify-center" {{-- Ajusta largura no mobile --}}
+                    icon="check"
                     color="blue"
                     wire:click="salvar"
                     :disabled="!$nome"
