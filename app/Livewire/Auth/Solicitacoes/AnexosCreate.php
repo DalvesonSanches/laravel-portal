@@ -31,10 +31,10 @@ class AnexosCreate extends Component
     {
         // 1. Limpa erros de validação anteriores
         $this->resetErrorBag();
-        
+
         // 2. Limpa os campos para um novo registro
-        $this->reset([ 'tipo_anexo_id', 'observacoes', 'arquivo_upload']); 
-        
+        $this->reset([ 'tipo_anexo_id', 'observacoes', 'arquivo_upload']);
+
         // 3. Seta o ID da solicitação pai recebido pelo evento
         $this->solicitacaoId = $solicitacaoId;
 
@@ -47,7 +47,7 @@ class AnexosCreate extends Component
                 ->where('sistec.itens_tipos.tipo_interno', 'anexos')
                 ->where('sistec.itens_tipos.ativo', true)
                 ->select(
-                    'sistec.itens_tipos.id as value', 
+                    'sistec.itens_tipos.id as value',
                     'sistec.itens_tipos.nome as label'
                 )
                 ->orderBy('sistec.itens_tipos.nome')
@@ -62,7 +62,7 @@ class AnexosCreate extends Component
         $this->validate([
             'tipo_anexo_id' => 'required',
             'solicitacaoId' => 'required',
-            'arquivo_upload'=> 'required|file|max:10240',
+            'arquivo_upload'=> 'required|file|max:100240',
         ]);
 
          try {
@@ -70,22 +70,22 @@ class AnexosCreate extends Component
             $diretorio = 'anexos';
 
             if ($this->arquivo_upload) {
-                // 1. GERA UM NOME ÚNICO E SIMPLES (Ex: 5f3e2a1b.pdf)
+                // 1. dados arquivo ANTES DO UPLOAD
                 $extensao = $this->arquivo_upload->getClientOriginalExtension();
-                $novoNome = str()->random(14) . '.' . $extensao; 
-
-                // 2. CAPTURA DADOS ANTES DO UPLOAD
                 $mime = $this->arquivo_upload->getMimeType();
                 $tamanho = $this->arquivo_upload->getSize();
-                $nomeOriginal = $this->arquivo_upload->getClientOriginalName();
+                //$nomeOriginal = $this->arquivo_upload->getClientOriginalName();
 
                 // 3. UPLOAD PARA O MINIO (Passo Crítico)
                 // O código só continua se o upload não lançar erro
-                $path = $service->salvarArquivo($bucket, $diretorio, $this->arquivo_upload, $novoNome);
+                $path = $service->salvarArquivo($bucket, $diretorio, $this->arquivo_upload);
 
                 if (!$path) {
                     throw new \Exception("Erro ao enviar arquivo para o storage.");
                 }
+
+                //movo mome gerado pelo service
+                $nomeNovo = basename($path);
 
                 // 4. Busca o Label do select (como vimos anteriormente)
                 $labelSelecionado = collect($this->tipoAnexo)
@@ -103,11 +103,10 @@ class AnexosCreate extends Component
                 }
 
                 // 8. SALVAMENTO NO BANCO (Dentro de transação para segurança total)
-                DB::transaction(function () use ($path, $novoNome, $mime, $tamanho, $extensao, $descricaoAutomatica, $nomeOriginal) {
+                DB::transaction(function () use ($path, $mime, $tamanho, $extensao, $descricaoAutomatica, $nomeNovo) {
                     // Monta o array com as variáveis capturadas no passo 1
                     $data = ([
-                        'arquivo_path'       => $path,
-                        'arquivo_nome'       => $novoNome,
+                        'arquivo_nome'       => $nomeNovo,
                         'arquivo_mime_type'  => $mime,
                         'tamanho_bytes'      => $tamanho,
                         'arquivo_ext'        => $extensao,                // Extensão real

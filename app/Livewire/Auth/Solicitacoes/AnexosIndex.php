@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\SolicitacaosAnexos;
 use App\Services\MinioStorageService; // Importe seu service
-use TallStackUi\Traits\Interactions; 
+use TallStackUi\Traits\Interactions;
 use Livewire\Attributes\On; // atributo para gerar eventos listeners O atributo #[On] serve exclusivamente para ouvir (escutar) eventos
 
 class AnexosIndex extends Component
@@ -62,6 +62,7 @@ class AnexosIndex extends Component
         $anexo = SolicitacaosAnexos::findOrFail($id);
         $bucket = 'sistec-bucket';
         $caminhoNoMinio = 'anexos/' . $anexo->arquivo_nome;
+
         // 1. Validar se o arquivo realmente existe no MinIO
         if (!$storageService->existe($bucket, $caminhoNoMinio)) {
             // Se NÃO existir, dispara o Dialog e encerra a função
@@ -81,7 +82,7 @@ class AnexosIndex extends Component
         $this->dialog()
             ->question('Remover Anexo', 'Tem certeza que deseja excluir permanentemente este arquivo?')
             // Passamos o $id como parâmetro para o método 'delete'
-            ->confirm('Sim, excluir', 'delete', $id) 
+            ->confirm('Sim, excluir', 'delete', $id)
             ->cancel('Cancelar')
             ->send();
     }
@@ -96,12 +97,12 @@ class AnexosIndex extends Component
 
             // Tenta excluir no MinIO
             $service->excluirArquivo($bucket, $caminhoNoMinio);
-            
+
             // Exclui no Banco de Dados
             $anexo->delete();
 
             $this->toast()->success('Sucesso', 'Arquivo removido com sucesso!')->send();
-            
+
         } catch (\Exception $e) {
             $this->toast()->error('Erro', 'Falha ao remover arquivo.')->send();
         }
@@ -109,15 +110,15 @@ class AnexosIndex extends Component
 
 
     // usa o atributo para gerar um evento que refresh de pagina O Livewire detecta o evento e re-executa a query no render()
-    #[On('refresh-anexos')] 
+    #[On('refresh-anexos')]
     public function refresh(){}
 
     public function render()
     {
         $rows = SolicitacaosAnexos::query()
-            ->with('ItensTipos') 
+            ->with('ItensTipos')
             ->where('solicitacaos_id', $this->solicitacaosId)
-            ->orderBy('id', 'desc') 
+            ->orderBy('id', 'desc')
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('arquivo_nome', 'ilike', "%{$this->search}%")

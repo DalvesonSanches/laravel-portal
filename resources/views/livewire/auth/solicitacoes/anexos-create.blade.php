@@ -22,7 +22,7 @@
                 :label="'Arquivo'"
                 wire:model="arquivo_upload"
                 accept=".pdf,.doc,.docx,.zip,.jpg,.png"
-                hint="Limite de 10MB"
+                hint="Somente arquivos .pdf,.doc,.docx,.zip,.jpg,.png (Limite de 100MB)"
             />
         </div>
 
@@ -31,7 +31,7 @@
             <div class="w-full mb-4 flex flex-col sm:flex-row gap-2">
                 <x-button round
                     class="w-full sm:w-auto justify-center" {{-- Ajusta largura no mobile --}}
-                    icon="arrow-left" 
+                    icon="arrow-left"
                     color="yellow"
                     x-on:click="$modalClose('anexos-create')"
                 >
@@ -41,16 +41,23 @@
                 {{--botao salvar com loading no botao--}}
                 <x-button round
                     class="w-full sm:w-auto justify-center" {{-- Ajusta largura no mobile --}}
-                    icon="check" 
+                    icon="check"
                     color="blue"
                     wire:click="salvar"
-                    {{--:disabled="!$nome"--}}
-                    loading="salvar"
+                    wire:loading.attr="disabled"
+                    wire:target="arquivo_upload, salvar"
                 >
-                    <span wire:loading.remove wire:target="salvar">
+                    {{-- estado normal --}}
+                    <span wire:loading.remove wire:target="arquivo_upload, salvar">
                         Salvar
                     </span>
 
+                    {{-- durante upload --}}
+                    <span wire:loading wire:target="arquivo_upload">
+                        Enviando arquivo...
+                    </span>
+
+                    {{-- durante salvar --}}
                     <span wire:loading wire:target="salvar">
                         Salvando...
                     </span>

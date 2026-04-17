@@ -49,7 +49,7 @@ class DownloadsForm extends Component
         try {
             $bucket = 'portal-bucket';
             $diretorio = 'downloads';
-            
+
             $data = [
                 'titulo' => $this->titulo,
                 'descricao' => $this->descricao,
@@ -72,13 +72,16 @@ class DownloadsForm extends Component
                 // 3. Envia o novo arquivo para o MinIO
                 $path = $service->salvarArquivo($bucket, $diretorio, $this->arquivo_upload);
 
+                //movo mome gerado pelo service
+                $nomeNovo = basename($path);
+
                 // 4. AGORA SIM: Deleta o temporário local do disco do SAIL
                 $this->arquivo_upload->delete();
 
                 // 5. Monta o array com as variáveis capturadas no passo 1
                 $data += [
                     'arquivo_path'  => $path,
-                    'nome_arquivo'  => $nomeOriginal,
+                    'nome_arquivo'  => $nomeNovo,
                     'tipo_mime'     => $mime,
                     'tamanho_bytes' => $tamanho,
                 ];
@@ -90,7 +93,7 @@ class DownloadsForm extends Component
             } else {
                 $data['criado_por_cpf'] = Auth::user()?->cpf ?? '00000000000';
                 Downloads::create($data);
-                
+
                 $this->toast()->success('Sucesso', 'Arquivo salvo!')->send();
                 $this->reset(['titulo', 'descricao', 'finalidade', 'categoria', 'arquivo_upload']);
             }
