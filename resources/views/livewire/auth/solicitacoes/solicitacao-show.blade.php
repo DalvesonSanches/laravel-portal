@@ -22,7 +22,7 @@
                     <x-slot:header>
                         {{-- flex-col: empilha no mobile, sm:flex-row: coloca lado a lado em telas pequenas/médias (640px+),-full: garante que use o espaço disponível no mobile--}}
                         <div class="m-4 flex flex-col sm:flex-row gap-2">
-                            
+
                             <x-button round
                                 class="w-full sm:w-auto justify-center" {{-- Ajusta largura no mobile --}}
                                 icon="arrow-left"
@@ -55,7 +55,7 @@
                             >
                                 Enviar processo
                             </x-button>
-                            
+
                         </div>
                     </x-slot:header>
                 @endif
@@ -65,7 +65,7 @@
                     <x-alert title="Protocolo em modo de leitura" color="yellow">
                         <div class="space-y-3">
                             <p>
-                                Você está acessando uma <strong>versão restrita</strong> deste protocolo. 
+                                Você está acessando uma <strong>versão restrita</strong> deste protocolo.
                                 Neste modo, as interações de impressão, download e adição de arquivos estão desabilitadas.
                             </p>
 
@@ -75,7 +75,7 @@
 
                             <ul class="list-disc list-inside space-y-1 ml-2">
                                 <li>
-                                    Realizar seu registro no sistema 
+                                    Realizar seu registro no sistema
                                     <a href="{{ route('login') }}" class="underline font-bold hover:text-yellow-800">
                                         clicando aqui
                                     </a>;
@@ -134,7 +134,7 @@
                         <div>
                             <span class="text-xs font-medium text-gray-500 uppercase">Endereço:</span>
                             <p class="text-base leading-relaxed">
-                                {{ $solicitacao->endereco_logradouro ?? '-' }}, {{ $solicitacao->endereco_numero ?? '-' }} 
+                                {{ $solicitacao->endereco_logradouro ?? '-' }}, {{ $solicitacao->endereco_numero ?? '-' }}
                                 {{ $solicitacao->endereco_complemento ?? '' }}, {{ $solicitacao->endereco_bairro ?? '-' }},
                                 {{ $solicitacao->endereco_municipio ?? '-' }} - {{ $solicitacao->endereco_estado ?? '-' }}
                             </p>
@@ -246,7 +246,7 @@
                                     <x-icon name="calendar-days" class="w-5 h-5" />
                                 </x-slot:left>
                                 {{--componente livewire de ocorrencias com o id da solicitacao como parametro--}}
-                                <livewire:auth.solicitacoes.ocorrencias-index 
+                                <livewire:auth.solicitacoes.ocorrencias-index
                                     :numProtocolo="$solicitacao->num_protocolo"
                                     wire:key="diasEvento-{{ $solicitacao->num_protocolo }}"
                                 />
@@ -274,7 +274,7 @@
                         <x-icon name="queue-list" class="w-5 h-5" />
                     </x-slot:left>
                     {{--componente livewire de ocorrencias com o id da solicitacao como parametro--}}
-                    <livewire:auth.solicitacoes.ocorrencias-index 
+                    <livewire:auth.solicitacoes.ocorrencias-index
                         :numProtocolo="$solicitacao->num_protocolo"
                         wire:key="ocorrencias-{{ $solicitacao->num_protocolo }}"
                     />
@@ -295,7 +295,7 @@
                         <x-icon name="paper-clip" class="w-5 h-5" />
                     </x-slot:left>
                     {{--componente livewire de ocorrencias com o id da solicitacao como parametro e lazy para carregamento ao clicar--}}
-                    <livewire:auth.solicitacoes.anexos-index 
+                    <livewire:auth.solicitacoes.anexos-index
                         :solicitacaosId="$solicitacao->id" {{--envia solicitacao_id --}}
                         :readonly="$readonly" {{--envia readonly --}}
                         wire:key="anexos-{{ $solicitacao->id }}"

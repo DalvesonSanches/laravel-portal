@@ -1,6 +1,17 @@
 <div x-data x-on:abrir-anexos-create.window="$modalOpen('anexos-create')"> {{--modal--}}
     <x-modal id="anexos-create" title="Adicionar Anexo" size="5xl">
         <div>
+            {{--lista de anexos pendentes--}}
+            @if($anexosPendentes)
+                <x-alert title="Anexos exigidos:" color="yellow">
+                    {!! $anexosPendentes !!}
+                    <x-slot:footer>
+                        <div class="flex justify-end">
+                            <x-badge md text="É de inteira responsabilidade do solicitante enviar todos os anexos exigidos em normas técnicas do Corpo de Bombeiros Militar do Amapá." color="yellow" />
+                        </div>
+                    </x-slot:footer>
+                </x-alert>
+            @endif
             {{-- seleção do tipo de anexo --}}
             <x-select.styled
                 label="Tipo de Anexo"

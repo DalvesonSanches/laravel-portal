@@ -16,7 +16,7 @@
             </div>
         @endif
         {{--tabela--}}
-        <x-table :$headers :$rows striped filter paginate loading>      
+        <x-table :$headers :$rows striped filter paginate loading>
             {{-- O nome após 'column_' deve ser EXATAMENTE o 'index' do header --}}
             @interact('column_tipo_data', $row)
                 <div class="block w-55 whitespace-normal wrap-break-word">
@@ -29,7 +29,7 @@
                     </span>
                 </div>
             @endinteract
-            
+
             {{-- quebra de linha descrição --}}
             @interact('column_observacao', $row)
                 <div class="block w-150 whitespace-normal wrap-break-word">
@@ -42,17 +42,17 @@
             @if (!$readonly)
                 @interact('column_action', $row)
                     <div class="flex gap-2" wire:loading.class="opacity-50 pointer-events-none"> {{-- Esmaece os botões ao carregar --}}
-                        <x-button.circle 
-                            icon="cloud-arrow-down" 
-                            color="blue" 
-                            wire:click="download({{ $row->id }})" 
+                        <x-button.circle
+                            icon="cloud-arrow-down"
+                            color="blue"
+                            wire:click="download({{ $row->id }})"
                             wire:loading.attr="disabled"
                             title="Baixar Arquivo"
                         />
 
-                        <x-button.circle 
-                            icon="trash" 
-                            color="red" 
+                        <x-button.circle
+                            icon="trash"
+                            color="red"
                             wire:click="confirmarExclusao({{ $row->id }})"
                             wire:loading.attr="disabled"
                             title="Remover Arquivo"
@@ -66,4 +66,4 @@
 
     {{-- componente do modal--}}
     <livewire:auth.solicitacoes.anexos-create />
-<div>
+</div>

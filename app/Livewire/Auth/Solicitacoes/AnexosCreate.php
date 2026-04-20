@@ -9,6 +9,7 @@ use App\Models\Solicitacao;
 use App\Models\Ocorrencias;
 use Illuminate\Support\Facades\Auth; //para usar os dados do usuario logado
 use App\Services\MinioStorageService; //service do minion
+use App\Services\AnexosService; //service de lista de anexos pendentes
 use Illuminate\Support\Facades\DB; //uso de union no select sem modal
 use Livewire\WithFileUploads; //auxilia envio de arquivos
 use TallStackUi\Traits\Interactions; //alertas e toasts
@@ -24,10 +25,11 @@ class AnexosCreate extends Component
     public $tipo_anexo_id;
     public array $tipoAnexo = [];//array para select
     public $arquivo_upload = null;
+    public $anexosPendentes = null;//variavel para armazenar lista anexos pendentes
 
     // Este atributo faz o componente "ouvir" o evento disparado pelo botão
     #[On('abrir-anexos-create')]
-    public function carregarModal($solicitacaoId)
+    public function carregarModal($solicitacaoId, AnexosService $serviceAnexos)
     {
         // 1. Limpa erros de validação anteriores
         $this->resetErrorBag();
@@ -37,6 +39,9 @@ class AnexosCreate extends Component
 
         // 3. Seta o ID da solicitação pai recebido pelo evento
         $this->solicitacaoId = $solicitacaoId;
+
+        //service que verifica os anexos pendentes
+        $this->verificar($serviceAnexos);
 
         //sql do campo select somente se tiver vindo um parametro
         if ($solicitacaoId) {
@@ -57,7 +62,7 @@ class AnexosCreate extends Component
         }
     }
 
-    public function salvar(MinioStorageService $service)
+    public function salvar(MinioStorageService $service, AnexosService $serviceAnexos)
     {
         $this->validate([
             'tipo_anexo_id' => 'required',
@@ -136,13 +141,15 @@ class AnexosCreate extends Component
                 });
 
                 // 9. LIMPEZA E FEEDBACK
-                $this->arquivo_upload->delete(); //Deleta o temporário local do disco do SAIL
+                if ($this->arquivo_upload) {
+                    $this->arquivo_upload->delete();
+                } //Deleta o temporário local do disco do SAIL
                 $this->toast()->success('Sucesso', 'Arquivo salvo!')->send();// aviso de sucesso
                 $this->reset(['tipo_anexo_id', 'observacoes', 'arquivo_upload']); //limpa os campos
-
+                $this->verificar($serviceAnexos); //Atualiza a lista de anexos pendentes novamente
                 $this->dispatch('refresh-anexos');//atualizar o blade da table anexos
                 $this->dispatch('refresh-ocorrencias');//atualizar o blade da table ocorrencias
-                //$this->js('$modalClose("anexos-create")');//fecha o modal
+
             }
 
         } catch (\Throwable $e) {
@@ -150,6 +157,32 @@ class AnexosCreate extends Component
             // Exibe o erro real para debug se necessário
             $this->toast()->error('Erro', 'Falha: ' . $e->getMessage())->send();
         }
+    }
+
+    public function verificar(AnexosService $serviceAnexos)
+    {
+        //busca dados solicitacao
+        $solicitacao = Solicitacao::findOrFail($this->solicitacaoId);
+        $tamanho = preg_replace('/\D/', '', $solicitacao->empresa_cpf_cnpj ?? '');
+        $perguntas = $solicitacao->perguntas ?? [];
+
+        //MONTA OS DADOS DINAMICAMENTE
+        $dados = [
+            'servicos_id' => $solicitacao->servicos_id,
+            'natureza_juridicas_id' => $solicitacao->natureza_juridicas_id,
+            'prestador_servico' => $solicitacao->prestador_servico,
+            'tipo_solicitante_id' => $solicitacao->tipo_solicitante_id,
+            'cnpj' => strlen($tamanho) === 14,
+            'simplificado' => ($solicitacao->tipo ?? null) === 'S',
+            'mei' => ($perguntas['Microempreendedor Individual:'] ?? null) === 'Sim',
+            'area' => (float) $solicitacao->area_declarada,
+        ];
+
+        $result = $serviceAnexos->executar($dados, $this->solicitacaoId);
+
+        //dd($dados, $result);
+
+        $this->anexosPendentes = $result['mensagem'];
     }
 
     public function render()
