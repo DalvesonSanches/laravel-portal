@@ -27,28 +27,35 @@ class AnexosCreate extends Component
     public $arquivo_upload = null;
     public $anexosPendentes = null;//variavel para armazenar lista anexos pendentes
 
-    // Este atributo faz o componente "ouvir" o evento disparado pelo botão
+    public bool $open = false;//boleano controlar abertura do modal
+
+    // Este atributo faz o componente "ouvir" o evento disparado pelo botão (parte 1)
     #[On('abrir-anexos-create')]
-    public function carregarModal($solicitacaoId, AnexosService $serviceAnexos)
+    public function abrirModal($solicitacaoId)
     {
-        // 1. Limpa erros de validação anteriores
-        $this->resetErrorBag();
+        $this->resetErrorBag();//// 1. Limpa erros de validação anteriores
+        $this->reset(['tipo_anexo_id', 'observacoes', 'arquivo_upload']);//// 2. Limpa os campos para um novo registro
 
-        // 2. Limpa os campos para um novo registro
-        $this->reset([ 'tipo_anexo_id', 'observacoes', 'arquivo_upload']);
+        $this->solicitacaoId = $solicitacaoId;//// 3. Seta o ID da solicitação pai recebido pelo evento
 
-        // 3. Seta o ID da solicitação pai recebido pelo evento
-        $this->solicitacaoId = $solicitacaoId;
+        $this->open = true;// // ABRE O MODAL alterano a variavel
 
-        //service que verifica os anexos pendentes
-        $this->verificar($serviceAnexos);
+        // DISPARA CARREGAMENTO de dados ASSÍNCRONO, evitando usuario ficar aguardando
+        $this->dispatch('carregar-dados-anexo');
+    }
+
+    // Este atributo faz o componente "ouvir" o evento disparado pela função acima (parte2)
+    #[On('carregar-dados-anexo')]
+    public function carregarDados(AnexosService $serviceAnexos)
+    {
+        $this->verificar($serviceAnexos);//service que verifica os anexos pendentes
 
         //sql do campo select somente se tiver vindo um parametro
-        if ($solicitacaoId) {
+        if ($this->solicitacaoId) {
             $this->tipoAnexo = DB::table('sistec.itens_tipos')
                 ->join('sistec.itens_servicos', 'sistec.itens_tipos.id', '=', 'sistec.itens_servicos.itens_tipos_id')
                 ->join('sistec.solicitacaos', 'sistec.itens_servicos.servicos_id', '=', 'sistec.solicitacaos.servicos_id')
-                ->where('sistec.solicitacaos.id', $solicitacaoId)
+                ->where('sistec.solicitacaos.id', $this->solicitacaoId)
                 ->where('sistec.itens_tipos.tipo_interno', 'anexos')
                 ->where('sistec.itens_tipos.ativo', true)
                 ->select(
@@ -57,10 +64,11 @@ class AnexosCreate extends Component
                 )
                 ->orderBy('sistec.itens_tipos.nome')
                 ->get()
-                ->map(fn ($item) => (array) $item) // Converte stdClass para array
+                ->map(fn ($item) => (array) $item)
                 ->toArray();
         }
     }
+
 
     public function salvar(MinioStorageService $service, AnexosService $serviceAnexos)
     {
@@ -144,11 +152,13 @@ class AnexosCreate extends Component
                 if ($this->arquivo_upload) {
                     $this->arquivo_upload->delete();
                 } //Deleta o temporário local do disco do SAIL
-                $this->toast()->success('Sucesso', 'Arquivo salvo!')->send();// aviso de sucesso
                 $this->reset(['tipo_anexo_id', 'observacoes', 'arquivo_upload']); //limpa os campos
+                $this->toast()->success('Sucesso', 'Arquivo salvo!')->send();// aviso de sucesso
+                
                 $this->verificar($serviceAnexos); //Atualiza a lista de anexos pendentes novamente
                 $this->dispatch('refresh-anexos');//atualizar o blade da table anexos
                 $this->dispatch('refresh-ocorrencias');//atualizar o blade da table ocorrencias
+                //$this->open = false;//se quiser fechar o modal
 
             }
 

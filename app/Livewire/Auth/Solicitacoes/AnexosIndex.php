@@ -108,6 +108,12 @@ class AnexosIndex extends Component
         }
     }
 
+    //abre o modal do create
+    public function abrirModal($id)
+    {
+        $this->dispatch('abrir-anexos-create', solicitacaoId: $id);
+    }
+
 
     // usa o atributo para gerar um evento que refresh de pagina O Livewire detecta o evento e re-executa a query no render()
     #[On('refresh-anexos')]

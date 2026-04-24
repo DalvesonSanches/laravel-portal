@@ -338,6 +338,9 @@
                     </x-tab.items>
                 @endif
             </x-tab>
+
+            {{-- componente do modal de criar anexos a nivel global--}}
+            <livewire:auth.solicitacoes.anexos-create wire:key="modal-global-create-anexos" />
         </x-card>
 
     </div>

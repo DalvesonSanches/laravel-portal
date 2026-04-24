@@ -3,17 +3,25 @@
         {{--se a variavel readonly for true exibi o botao--}}
         @if (!$readonly)
             {{--botao modal --}}
-            <div class="mb-4 flex flex-col sm:flex-row gap-2">
-                <x-button round
-                    class="w-full sm:w-auto justify-center" {{-- Ajusta largura no mobile --}}
-                    icon="paper-clip"
-                    color="green"
-                    text="Novo anexo"
-                    wire:click="$dispatch('abrir-anexos-create', { solicitacaoId: {{ $solicitacaosId }} } )"
-                    wire:loading.attr="disabled"
-                    title="Adicionar um novo anexo"
-                />
-            </div>
+            <x-button round
+                class="w-full sm:w-auto justify-center"
+                icon="paper-clip"
+                color="green"
+                wire:click="abrirModal({{ $solicitacaosId }})"
+                wire:loading.attr="disabled"
+                wire:target="abrirModal"
+                title="Adicionar um novo anexo"
+            >
+                {{-- estado normal --}}
+                <span wire:loading.remove wire:target="abrirModal">
+                    Novo anexo
+                </span>
+
+                {{-- loading --}}
+                <span wire:loading wire:target="abrirModal">
+                    Carregando...
+                </span>
+            </x-button>
         @endif
         {{--tabela--}}
         <x-table :$headers :$rows striped filter paginate loading>
@@ -64,6 +72,4 @@
         </x-table>
     </div>
 
-    {{-- componente do modal--}}
-    <livewire:auth.solicitacoes.anexos-create />
 </div>

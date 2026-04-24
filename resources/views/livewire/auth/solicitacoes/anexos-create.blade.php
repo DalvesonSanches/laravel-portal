@@ -1,5 +1,5 @@
-<div x-data x-on:abrir-anexos-create.window="$modalOpen('anexos-create')"> {{--modal--}}
-    <x-modal id="anexos-create" title="Adicionar Anexo" size="5xl">
+<form wire:submit.prevent="salvar"> {{--modal--}}
+    <x-modal title="Adicionar Anexo" wire="open" size="5xl">
         <div>
             {{--lista de anexos pendentes--}}
             @if($anexosPendentes)
@@ -54,21 +54,14 @@
                     class="w-full sm:w-auto justify-center" {{-- Ajusta largura no mobile --}}
                     icon="check"
                     color="blue"
-                    wire:click="salvar"
+                    type="submit"
+                    wire:target="salvar"
                     wire:loading.attr="disabled"
-                    wire:target="arquivo_upload, salvar"
                 >
-                    {{-- estado normal --}}
-                    <span wire:loading.remove wire:target="arquivo_upload, salvar">
+                    <span wire:loading.remove wire:target="salvar">
                         Salvar
                     </span>
 
-                    {{-- durante upload --}}
-                    <span wire:loading wire:target="arquivo_upload">
-                        Enviando arquivo...
-                    </span>
-
-                    {{-- durante salvar --}}
                     <span wire:loading wire:target="salvar">
                         Salvando...
                     </span>
@@ -77,4 +70,4 @@
             </div>
         </x-slot>
     </x-modal>
-</div>
+</form>
