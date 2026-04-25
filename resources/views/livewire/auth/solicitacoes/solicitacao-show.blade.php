@@ -245,12 +245,13 @@
                                 <x-slot:left>
                                     <x-icon name="calendar-days" class="w-5 h-5" />
                                 </x-slot:left>
-                                {{--componente livewire de ocorrencias com o id da solicitacao como parametro--}}
-                                <livewire:auth.solicitacoes.ocorrencias-index
-                                    :numProtocolo="$solicitacao->num_protocolo"
-                                    wire:key="diasEvento-{{ $solicitacao->num_protocolo }}"
+                                 {{--componente livewire de ocorrencias com o id da solicitacao como parametro e lazy para carregamento ao clicar--}}
+                                <livewire:auth.solicitacoes.dias-index
+                                    :solicitacaosId="$solicitacao->id" {{--envia solicitacao_id --}}
+                                    :readonly="$readonly" {{--envia readonly --}}
+                                    wire:key="dias-{{ $solicitacao->id }}"
+                                    lazy
                                 />
-
                             </x-tab.items>
 
                             {{--Responsaveis evento--}}
@@ -258,7 +259,13 @@
                                 <x-slot:left>
                                     <x-icon name="user-group" class="w-5 h-5" />
                                 </x-slot:left>
-                                Responsaveis
+                                {{--componente livewire de ocorrencias com o id da solicitacao como parametro e lazy para carregamento ao clicar--}}
+                                <livewire:auth.solicitacoes.responsaveis-index
+                                    :solicitacaosId="$solicitacao->id" {{--envia solicitacao_id --}}
+                                    :readonly="$readonly" {{--envia readonly --}}
+                                    wire:key="responsaveis-{{ $solicitacao->id }}"
+                                    lazy
+                                />
                             </x-tab.items>
                         </x-tab>
                     @endif
@@ -278,7 +285,6 @@
                         :numProtocolo="$solicitacao->num_protocolo"
                         wire:key="ocorrencias-{{ $solicitacao->num_protocolo }}"
                     />
-
                 </x-tab.items>
 
                 {{--TAXAS--}}
@@ -286,7 +292,13 @@
                     <x-slot:left>
                         <x-icon name="banknotes" class="w-5 h-5" />
                     </x-slot:left>
-                    taxas
+                    {{--componente livewire com o id da solicitacao como parametro e lazy para carregamento ao clicar--}}
+                    <livewire:auth.solicitacoes.taxas-index
+                        :solicitacaosId="$solicitacao->id" {{--envia solicitacao_id --}}
+                        :readonly="$readonly" {{--envia readonly --}}
+                        wire:key="taxas-{{ $solicitacao->id }}"
+                        lazy
+                    />
                 </x-tab.items>
 
                 {{--Anexos--}}
@@ -308,7 +320,13 @@
                     <x-slot:left>
                         <x-icon name="document-text" class="w-5 h-5" />
                     </x-slot:left>
-                    relatorios
+                    {{--componente livewire de ocorrencias com o id da solicitacao como parametro e lazy para carregamento ao clicar--}}
+                    <livewire:auth.solicitacoes.relatorios-index
+                        :solicitacaosId="$solicitacao->id" {{--envia solicitacao_id --}}
+                        :readonly="$readonly" {{--envia readonly --}}
+                        wire:key="relatorios-{{ $solicitacao->id }}"
+                        lazy
+                    />
                 </x-tab.items>
 
                 {{--Retornos--}}
@@ -316,7 +334,13 @@
                     <x-slot:left>
                         <x-icon name="arrow-uturn-left" class="w-5 h-5" />
                     </x-slot:left>
-                    retornos
+                     {{--componente livewire de ocorrencias com o id da solicitacao como parametro e lazy para carregamento ao clicar--}}
+                    <livewire:auth.solicitacoes.retornos-index
+                        :solicitacaosId="$solicitacao->id" {{--envia solicitacao_id --}}
+                        :readonly="$readonly" {{--envia readonly --}}
+                        wire:key="retornos-{{ $solicitacao->id }}"
+                        lazy
+                    />
                 </x-tab.items>
 
                 {{--Certificacoes--}}
@@ -324,7 +348,13 @@
                     <x-slot:left>
                         <x-icon name="check-circle" class="w-5 h-5" />
                     </x-slot:left>
-                    certificações
+                     {{--componente livewire de ocorrencias com o id da solicitacao como parametro e lazy para carregamento ao clicar--}}
+                    <livewire:auth.solicitacoes.certificacoes-index
+                        :solicitacaosId="$solicitacao->id" {{--envia solicitacao_id --}}
+                        :readonly="$readonly" {{--envia readonly --}}
+                        wire:key="certificacoes-{{ $solicitacao->id }}"
+                        lazy
+                    />
                 </x-tab.items>
 
                 {{--somente analise de projeto--}}
@@ -334,7 +364,13 @@
                         <x-slot:left>
                             <x-icon name="document-magnifying-glass" class="w-5 h-5" />
                         </x-slot:left>
-                        aprovação de projetos
+                         {{--componente livewire de ocorrencias com o id da solicitacao como parametro e lazy para carregamento ao clicar--}}
+                    <livewire:auth.solicitacoes.projetos-index
+                        :solicitacaosId="$solicitacao->id" {{--envia solicitacao_id --}}
+                        :readonly="$readonly" {{--envia readonly --}}
+                        wire:key="projetos-{{ $solicitacao->id }}"
+                        lazy
+                    />
                     </x-tab.items>
                 @endif
             </x-tab>
