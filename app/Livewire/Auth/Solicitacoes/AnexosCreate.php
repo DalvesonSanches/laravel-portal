@@ -153,12 +153,11 @@ class AnexosCreate extends Component
                     $this->arquivo_upload->delete();
                 } //Deleta o temporário local do disco do SAIL
                 $this->reset(['tipo_anexo_id', 'observacoes', 'arquivo_upload']); //limpa os campos
-                $this->toast()->success('Sucesso', 'Arquivo salvo!')->send();// aviso de sucesso
-                
                 $this->verificar($serviceAnexos); //Atualiza a lista de anexos pendentes novamente
                 $this->dispatch('refresh-anexos');//atualizar o blade da table anexos
                 $this->dispatch('refresh-ocorrencias');//atualizar o blade da table ocorrencias
-                //$this->open = false;//se quiser fechar o modal
+                $this->toast()->success('Sucesso', 'Arquivo salvo!')->send();// aviso de sucesso
+                //$this->open = false;//fecha o modal
 
             }
 

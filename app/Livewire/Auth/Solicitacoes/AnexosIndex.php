@@ -5,6 +5,8 @@ namespace App\Livewire\Auth\Solicitacoes;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\SolicitacaosAnexos;
+use App\Models\Ocorrencias;
+use Illuminate\Support\Facades\Auth; //para usar os dados do usuario logado
 use App\Services\MinioStorageService; // Importe seu service
 use TallStackUi\Traits\Interactions;
 use Livewire\Attributes\On; // atributo para gerar eventos listeners O atributo #[On] serve exclusivamente para ouvir (escutar) eventos
@@ -91,7 +93,13 @@ class AnexosIndex extends Component
     public function delete(int $id, MinioStorageService $service): void
     {
         try {
-            $anexo = SolicitacaosAnexos::findOrFail($id);
+            //$anexo = SolicitacaosAnexos::findOrFail($id);
+            $anexo = SolicitacaosAnexos::with('itensTipos', 'solicitacao')->findOrFail($id);//carrega o relacionamento automaticamente
+            $nomeTipo = $anexo->itensTipos->nome ?? 'Arquivo';//nome do tipo de anexo
+           
+            $nomeUsuario = Auth::user()->name; // 5. Busca o nome do usuário logado (Tabela Users)
+            $descricao = '[AUTOMÁTICA DO SISTEMA] - Anexo ' . $nomeTipo . ' removido por: ' . $nomeUsuario;//descricao do delete na ocorrencia
+            $numProtocolo = $anexo->solicitacao->num_protocolo;//numero protocolo atraves do relacionamento belongto
             $bucket = 'sistec-bucket';
             $caminhoNoMinio = 'anexos/' . $anexo->arquivo_nome;
 
@@ -100,6 +108,18 @@ class AnexosIndex extends Component
 
             // Exclui no Banco de Dados
             $anexo->delete();
+
+            //gera ocorrencia
+            Ocorrencias::create([
+                'num_protocolo'       => $numProtocolo,
+                'tipo_ocorrencias_id' => 101, // exemplo: ID de exclusão
+                'data_ocorrencia'     => now(),
+                'descricao'           => $descricao,
+                'usuarios_id'         =>  1,
+                'usuario_lotacao'     => 'CETI',
+            ]);
+
+            $this->dispatch('refresh-ocorrencias');//atualizar o blade da table ocorrencias
 
             $this->toast()->success('Sucesso', 'Arquivo removido com sucesso!')->send();
 
