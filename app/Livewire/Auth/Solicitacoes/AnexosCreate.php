@@ -156,8 +156,9 @@ class AnexosCreate extends Component
                 $this->verificar($serviceAnexos); //Atualiza a lista de anexos pendentes novamente
                 $this->dispatch('refresh-anexos');//atualizar o blade da table anexos
                 $this->dispatch('refresh-ocorrencias');//atualizar o blade da table ocorrencias
-                $this->toast()->success('Sucesso', 'Arquivo salvo!')->send();// aviso de sucesso
+                //$this->toast()->success('Sucesso', 'Arquivo salvo!')->send();// aviso de sucesso
                 //$this->open = false;//fecha o modal
+                $this->dialog()->success('Successo', 'Arquivo salvo!')->send();
 
             }
 

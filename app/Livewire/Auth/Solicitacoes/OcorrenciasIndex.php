@@ -36,7 +36,7 @@ class OcorrenciasIndex extends Component
     }
 
     // usa o atributo para gerar um evento que refresh de pagina O Livewire detecta o evento e re-executa a query no render()
-    #[On('refresh-ocorrencias')] 
+    #[On('refresh-ocorrencias')]
     public function refresh(){}
 
     public function render()
@@ -44,7 +44,8 @@ class OcorrenciasIndex extends Component
         $rows = Ocorrencias::query()
             ->with('TipoOcorrencias') // 🔥 aqui está o belongsTo
             ->where('num_protocolo', $this->numProtocolo) //condição
-            ->orderBy('id', 'desc') 
+            ->whereNotIn('tipo_ocorrencias_id', [49]) // excesão
+            ->orderBy('id', 'desc')
             ->when($this->search, function ($query) { //search
                 $query->where(function ($q) {
                     $q->where('descricao', 'ilike', "%{$this->search}%")

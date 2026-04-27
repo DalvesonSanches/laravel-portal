@@ -44,7 +44,7 @@
                     class="w-full sm:w-auto justify-center" {{-- Ajusta largura no mobile --}}
                     icon="arrow-left"
                     color="yellow"
-                    x-on:click="$modalClose('anexos-create')"
+                    wire:click="$set('open', false)" {{-- Maneira correta de fechar quando usa wire="open" --}}
                 >
                     Voltar
                 </x-button>
