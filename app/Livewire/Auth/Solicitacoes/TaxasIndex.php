@@ -5,8 +5,11 @@ namespace App\Livewire\Auth\Solicitacoes;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Taxas;
+use App\Models\Relatorios;
+use App\Models\PendenciasTaxas;
 use Illuminate\Support\Facades\Auth; //para usar os dados do usuario logado
 use TallStackUi\Traits\Interactions;
+use Livewire\Attributes\Computed;//Com o atributo #[Computed], o Livewire gerencia o cache da informação dentro da mesma requisição. Se você chamar essa variável 10 vezes no Blade, o Livewire faz a consulta ao banco apenas uma vez
 use Livewire\Attributes\On; // atributo para gerar eventos listeners O atributo #[On] serve exclusivamente para ouvir (escutar) eventos
 
 class TaxasIndex extends Component
@@ -17,7 +20,10 @@ class TaxasIndex extends Component
     public int $quantity = 10;
     public ?string $search = null;// 🔥 necessário para filter
     public array $headers = [];
-    public ?string $solicitacaosId = null;
+    public ?string $solicitacaosId = null; //id da solicitação que veio como parametro
+    public ?string $solicitacaosStatus = null; //status da solicitação que veio como parametro
+    public ?string $solicitacaosServicosId = null; //servicos_id da solicitação que veio como parametro
+    public bool $solicitacaosIsento = false; //solicitacaosIsento da solicitação que veio como parametro
     public bool $readonly = false; // Propriedade para receber o readonly
 
     //Este método define o que aparece na tela enquanto a aba carrega.
@@ -39,9 +45,12 @@ class TaxasIndex extends Component
         HTML;
     }
 
-    public function mount(?string $solicitacaosId = null, $readonly = false): void
+    public function mount(?string $solicitacaosId = null, ?string $solicitacaosStatus = null, ?string $solicitacaosServicosId = null, $solicitacaosIsento = false, $readonly = false): void
     {
         $this->solicitacaosId = $solicitacaosId;
+        $this->solicitacaosStatus = $solicitacaosStatus;
+        $this->solicitacaosServicosId = $solicitacaosServicosId;
+        $this->solicitacaosIsento = $solicitacaosIsento;
         $this->readonly = $readonly;
         $this->headers = [
             ['index' => 'tipo_taxa', 'label' => 'Tipo'],
@@ -60,63 +69,36 @@ class TaxasIndex extends Component
         $this->resetPage();
     }
 
-/*
-    // 1. Método de confirmação
-    public function confirmarExclusao(int $id): void
+    //usa Propriedade Computada para verificar se ja tem alguma taxa de abertura (1) e que esteja valida ou paga (A, P)
+    //No seu Blade (você acessa como se fosse uma variável, mas com this->->temTaxaAbertura (retorna boleano)
+    #[Computed]
+    public function temTaxaAbertura()
     {
-        $this->dialog()
-            ->question('Remover Anexo', 'Tem certeza que deseja excluir permanentemente este arquivo?')
-            // Passamos o $id como parâmetro para o método 'delete'
-            ->confirm('Sim, excluir', 'delete', $id)
-            ->cancel('Cancelar')
-            ->send();
+        return Taxas::where('solicitacaos_id', $this->solicitacaosId)
+            ->where('tipo_taxas_id', 1)
+            ->whereIn('situacao', ['A', 'P'])
+            ->exists();
     }
-
-    // 2. Método de exclusão (agora recebe o ID)
-    public function delete(int $id, MinioStorageService $service): void
+    //usa Propriedade Computada para verificar se ja tem algum relatorios
+    #[Computed]
+    public function temRelatorio()
     {
-        try {
-            //$anexo = SolicitacaosAnexos::findOrFail($id);
-            $anexo = SolicitacaosAnexos::with('itensTipos', 'solicitacao')->findOrFail($id);//carrega o relacionamento automaticamente
-            $nomeTipo = $anexo->itensTipos->nome ?? 'Arquivo';//nome do tipo de anexo
-
-            $nomeUsuario = Auth::user()->name; // 5. Busca o nome do usuário logado (Tabela Users)
-            $descricao = '[AUTOMÁTICA DO SISTEMA] - Anexo ' . $nomeTipo . ' removido por: ' . $nomeUsuario;//descricao do delete na ocorrencia
-            $numProtocolo = $anexo->solicitacao->num_protocolo;//numero protocolo atraves do relacionamento belongto
-            $bucket = 'sistec-bucket';
-            $caminhoNoMinio = 'anexos/' . $anexo->arquivo_nome;
-
-            // Tenta excluir no MinIO
-            $service->excluirArquivo($bucket, $caminhoNoMinio);
-
-            // Exclui no Banco de Dados
-            $anexo->delete();
-
-            //gera ocorrencia
-            Ocorrencias::create([
-                'num_protocolo'       => $numProtocolo,
-                'tipo_ocorrencias_id' => 101, // exemplo: ID de exclusão
-                'data_ocorrencia'     => now(),
-                'descricao'           => $descricao,
-                'usuarios_id'         =>  1,
-                'usuario_lotacao'     => 'CETI',
-            ]);
-
-            $this->dispatch('refresh-ocorrencias');//atualizar o blade da table ocorrencias
-
-            $this->toast()->success('Sucesso', 'Arquivo removido com sucesso!')->send();
-
-        } catch (\Exception $e) {
-            $this->toast()->error('Erro', 'Falha ao remover arquivo.')->send();
-        }
+        // Retorna o objeto do último relatório ou null se não existir
+        return Relatorios::where('solicitacaos_id', $this->solicitacaosId)
+            ->orderBy('numero', 'desc')
+            ->first(); // O first() já aplica o LIMIT 1 internamente
     }
-
-    //abre o modal do create
-    public function abrirModal($id)
+     //usa Propriedade Computada para verifica se tem pendencia de diferença de area vistoria, habite-se ou usbuilt com situação Vencido ou Cancelado
+    #[Computed]
+    public function temPendenciasTaxas()
     {
-        $this->dispatch('abrir-anexos-create', solicitacaoId: $id);
+        // Retorna o objeto do último registro de pendencias de taxa de diferença de area, não paga
+        return PendenciasTaxas::where('solicitacaos_id', $this->solicitacaosId)
+            ->where('tipo_taxas_id', 2)
+            ->where('pendente', true)
+            ->orderBy('id', 'desc')
+            ->first(); // O first() já aplica o LIMIT 1 internamente
     }
-*/
 
     // usa o atributo para gerar um evento que refresh de pagina O Livewire detecta o evento e re-executa a query no render()
     #[On('refresh-taxas')]

@@ -2,26 +2,28 @@
     <div>
         {{--se a variavel readonly for true exibi o botao--}}
         @if (!$readonly)
-            {{--botao modal --}}
-            <x-button round
-                class="w-full sm:w-auto justify-center"
-                icon="paper-clip"
-                color="green"
-                wire:click="abrirModal({{ $solicitacaosId }})"
-                wire:loading.attr="disabled"
-                wire:target="abrirModal"
-                title="Adicionar um novo anexo"
-            >
-                {{-- estado normal --}}
-                <span wire:loading.remove wire:target="abrirModal">
-                    Novo anexo
-                </span>
+            <div class="mb-4"> {{-- Adicionado margem inferior --}}
+                {{--botao modal --}}
+                <x-button round
+                    class="w-full sm:w-auto justify-center"
+                    icon="paper-clip"
+                    color="green"
+                    wire:click="abrirModal({{ $solicitacaosId }})"
+                    wire:loading.attr="disabled"
+                    wire:target="abrirModal"
+                    title="Adicionar um novo anexo"
+                >
+                    {{-- estado normal --}}
+                    <span wire:loading.remove wire:target="abrirModal">
+                        Novo anexo
+                    </span>
 
-                {{-- loading --}}
-                <span wire:loading wire:target="abrirModal">
-                    Carregando...
-                </span>
-            </x-button>
+                    {{-- loading --}}
+                    <span wire:loading wire:target="abrirModal">
+                        Carregando...
+                    </span>
+                </x-button>
+            </div>
         @endif
         {{--tabela--}}
         <x-table :$headers :$rows striped filter paginate loading>

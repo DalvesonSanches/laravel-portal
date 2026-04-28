@@ -295,6 +295,9 @@
                     {{--componente livewire com o id da solicitacao como parametro e lazy para carregamento ao clicar--}}
                     <livewire:auth.solicitacoes.taxas-index
                         :solicitacaosId="$solicitacao->id" {{--envia solicitacao_id --}}
+                        :solicitacaosStatus="$solicitacao->status" {{--envia status --}}
+                        :solicitacaosServicosId="$solicitacao->servicos_id" {{--envia servicos_id --}}
+                        :solicitacaosIsento="$solicitacao->empresa_isento" {{--envia empresa_isento --}}
                         :readonly="$readonly" {{--envia readonly --}}
                         wire:key="taxas-{{ $solicitacao->id }}"
                         lazy
