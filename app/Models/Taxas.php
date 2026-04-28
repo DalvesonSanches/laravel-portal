@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Taxas extends Model
 {
@@ -16,31 +17,31 @@ class Taxas extends Model
     public $timestamps = true;
     //Campos que podem ser preenchidos em massa
     protected $fillable = [
-    'solicitacaos_id',	
-    'nosso_numero',	
-    'valor_taxa',	
-    'valor_total',	
-    'valor_pago',	
-    'data_pagamento',	
-    'data_registro',	
-    'hash_dar',	
-    'data_vencimento',		
-    'tipo_taxas_id',	
-    'empresas_id',	
-    'servicos_id',	
-    'class_vistorias_id',	
-    'mes_referencia',	
-    'area_declarada',	
-    'quantidade',	
-    'cpf_cnpj',	
-    'situacao',	
+    'solicitacaos_id',
+    'nosso_numero',
+    'valor_taxa',
+    'valor_total',
+    'valor_pago',
+    'data_pagamento',
+    'data_registro',
+    'hash_dar',
+    'data_vencimento',
+    'tipo_taxas_id',
+    'empresas_id',
+    'servicos_id',
+    'class_vistorias_id',
+    'mes_referencia',
+    'area_declarada',
+    'quantidade',
+    'cpf_cnpj',
+    'situacao',
     'origem',
    ];
     //Casts (muito importantes no PostgreSQL)
     protected $casts = [
         'created_at'                 => 'datetime',
         'updated_at'                 => 'datetime',
-        'data_pagamento'             =>  'date',	
+        'data_pagamento'             =>  'date',
         'data_registro'              =>  'date',
         'data_vencimento'            => 'date',
     ];
@@ -55,7 +56,7 @@ class Taxas extends Model
     {
         return $this->belongsTo(Solicitacao::class, 'solicitacaos_id', 'id');
     }
-    
+
     public function empresa()
     {
         return $this->belongsTo(Empresas::class, 'empresas_id', 'id');

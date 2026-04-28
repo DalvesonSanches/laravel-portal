@@ -27,31 +27,22 @@
         <x-table :$headers :$rows striped filter paginate loading>
             {{-- O nome após 'column_' deve ser EXATAMENTE o 'index' do header --}}
             @interact('column_tipo_taxa', $row)
-                {{ $row->TiposTaxas->tipo_taxa ?? 'Sem Tipo' }}
+                {{ $row->TiposTaxas->tipo_taxa ?? '-' }}
             @endinteract
 
-            {{-- Formatação da Data de Vencimento --}}
-            @interact('column_data_vencimento', $row)
-                {{ $row->data_vencimento ? \Carbon\Carbon::parse($row->data_vencimento)->format('d/m/Y') : '-' }}
-            @endinteract
-
-            {{-- Formatação da Data de Pagamento --}}
-            @interact('column_data_pagamento', $row)
-                {{ $row->data_pagamento ? \Carbon\Carbon::parse($row->data_pagamento)->format('d/m/Y') : 'Pendente' }}
-            @endinteract
-
-            {{-- Conversão da Situação (P, A, C) --}}
-            @interact('column_situacao', $row)
+            @interact('column_situacao_sql', $row)
                 @php
-                    $status = [
-                        'P' => ['label' => 'Pago', 'color' => 'green'],
-                        'A' => ['label' => 'Aguardando', 'color' => 'yellow'],
-                        'C' => ['label' => 'Cancelado', 'color' => 'red'],
-                    ][$row->situacao] ?? ['label' => $row->situacao, 'color' => 'gray'];
+                    $color = match($row->situacao) {
+                        'P' => 'green',
+                        'A' => 'yellow',
+                        'V' => 'red',
+                        'C' => 'gray',
+                        default => 'primary',
+                    };
                 @endphp
-
-                <x-badge :text="$status['label']" :color="$status['color']" light />
+                <x-badge :text="$row->situacao_sql" :color="$color" light />
             @endinteract
+
 
             {{-- Coluna de Ação com ícone de download --}}
             {{--se a variavel readonly for true exibi o botao--}}
@@ -63,7 +54,7 @@
                             color="blue"
                             wire:click="download({{ $row->id }})"
                             wire:loading.attr="disabled"
-                            title="Baixar Arquivo"
+                            title="Baixar Taxa"
                         />
 
                         <x-button.circle
@@ -71,7 +62,7 @@
                             color="red"
                             wire:click="confirmarExclusao({{ $row->id }})"
                             wire:loading.attr="disabled"
-                            title="Remover Arquivo"
+                            title="Cancelar Taxa"
                         />
 
                     </div>

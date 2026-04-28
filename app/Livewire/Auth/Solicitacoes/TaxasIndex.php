@@ -47,9 +47,9 @@ class TaxasIndex extends Component
             ['index' => 'tipo_taxa', 'label' => 'Tipo'],
             ['index' => 'nosso_numero', 'label' => 'Número'],
             ['index' => 'valor_total', 'label' => 'Valor (R$)'],
-            ['index' => 'data_vencimento', 'label' => 'Vencimento'],
-            ['index' => 'data_pagamento', 'label' => 'Pagamento'],
-            ['index' => 'situacao', 'label' => 'Status'],
+            ['index' => 'data_vencimento_sql', 'label' => 'Vencimento'], // Nome do Alias SQL
+            ['index' => 'data_pagamento_sql', 'label' => 'Pagamento'],  // Nome do Alias SQL
+            ['index' => 'situacao_sql', 'label' => 'Status'],           // Nome do Alias SQL
             ['index' => 'action', 'label' => 'Ação'],
         ];
     }
@@ -126,25 +126,54 @@ class TaxasIndex extends Component
     {
         $rows = Taxas::query()
             ->with('TiposTaxas')
+            ->select('*')
+            ->selectRaw("to_char(data_vencimento, 'DD/MM/YYYY') as data_vencimento_sql")
+            ->selectRaw("to_char(data_pagamento, 'DD/MM/YYYY') as data_pagamento_sql")
+            ->selectRaw("
+                CASE
+                    WHEN situacao = 'A' THEN 'Aguardando Pagamento'
+                    WHEN situacao = 'P' THEN 'Pago'
+                    WHEN situacao = 'V' THEN 'Vencida'
+                    WHEN situacao = 'C' THEN 'Cancelado'
+                    ELSE situacao
+                END as situacao_sql
+            ")
             ->where('solicitacaos_id', $this->solicitacaosId)
-            ->orderBy('id', 'desc')
             ->when($this->search, function ($query) {
-                $query->where(function ($q) {
-                    $q->where('nosso_numero', 'ilike', "%{$this->search}%")
-                    ->orWhere('valor_total', 'ilike', "%{$this->search}%") // Se for coluna simples
-                    ->orWhere('data_vencimento', 'ilike', "%{$this->search}%")
-                    ->orWhere('data_pagamento', 'ilike', "%{$this->search}%")
-                    ->orWhere('situacao', 'ilike', "%{$this->search}%")
-                    // 👇 Busca dentro do relacionamento "TiposTaxas"
-                    ->orWhereHas('TiposTaxas', function ($subQuery) {
-                        $subQuery->where('tipo_taxa', 'ilike', "%{$this->search}%");
+                // Aplicamos unaccent no termo de busca
+                $searchTerm = "%{$this->search}%";
+
+                $query->where(function ($q) use ($searchTerm) {
+                    // Busca em colunas simples com unaccent
+                    $q->whereRaw("unaccent(nosso_numero) ilike unaccent(?)", [$searchTerm])
+                    ->orWhere('valor_total', 'ilike', $searchTerm);
+
+                    // Busca no relacionamento ignorando acentos
+                    $q->orWhereHas('TiposTaxas', function ($subQuery) use ($searchTerm) {
+                        $subQuery->whereRaw("unaccent(tipo_taxa) ilike unaccent(?)", [$searchTerm]);
                     });
-                }); // <-- Faltava o ponto e vírgula aqui
+
+                    // Busca nas Datas (não precisa de unaccent)
+                    $q->orWhereRaw("to_char(data_vencimento, 'DD/MM/YYYY') ilike ?", [$searchTerm])
+                    ->orWhereRaw("to_char(data_pagamento, 'DD/MM/YYYY') ilike ?", [$searchTerm]);
+
+                    // Busca na Situação formatada ignorando acentos
+                    $q->orWhereRaw("
+                        unaccent(CASE
+                            WHEN situacao = 'A' THEN 'Aguardando Pagamento'
+                            WHEN situacao = 'P' THEN 'Pago'
+                            WHEN situacao = 'V' THEN 'Vencida'
+                            WHEN situacao = 'C' THEN 'Cancelado'
+                            ELSE situacao
+                        END) ilike unaccent(?)", [$searchTerm]
+                    );
+                });
             })
+            ->orderBy('id', 'desc')
             ->paginate($this->quantity);
 
-        return view('livewire.auth.solicitacoes.taxas-index', [
-            'rows' => $rows
-        ]);
+        return view('livewire.auth.solicitacoes.taxas-index', ['rows' => $rows]);
     }
+
+
 }
