@@ -79,6 +79,7 @@ class TaxasIndex extends Component
             ->whereIn('situacao', ['A', 'P'])
             ->exists();
     }
+
     //usa Propriedade Computada para verificar se ja tem algum relatorios
     #[Computed]
     public function temRelatorio()
@@ -88,7 +89,8 @@ class TaxasIndex extends Component
             ->orderBy('numero', 'desc')
             ->first(); // O first() já aplica o LIMIT 1 internamente
     }
-     //usa Propriedade Computada para verifica se tem pendencia de diferença de area vistoria, habite-se ou usbuilt com situação Vencido ou Cancelado
+
+    //usa Propriedade Computada para verifica se tem pendencia de diferença de area vistoria, habite-se ou usbuilt com situação Vencido ou Cancelado
     #[Computed]
     public function temPendenciasTaxas()
     {
@@ -98,6 +100,54 @@ class TaxasIndex extends Component
             ->where('pendente', true)
             ->orderBy('id', 'desc')
             ->first(); // O first() já aplica o LIMIT 1 internamente
+    }
+
+    //usa Propriedade Computada para verifica se tem taxa de pendencia de diferença de area com base no id do boleto acima
+    #[Computed]
+    public function temtaxaDiferencaArea()
+    {
+        // 1. Acessa a outra propriedade computada
+        $pendencia = $this->temPendenciasTaxas;
+
+        // 2. Verifica se a pendência existe e se possui um boletos_id
+        if (!$pendencia || !$pendencia->boletos_id) {
+            return null;
+        }
+
+        // 3. Busca a taxa usando o ID que veio da pendência
+        return Taxas::where('id', $pendencia->boletos_id)
+            ->where('solicitacaos_id', $this->solicitacaosId)
+            ->first();
+    }
+
+    //usa Propriedade Computada para verifica se tem taxa de pendencia do 5 relatorio
+    #[Computed]
+    public function temPendencia5Relatorio()
+    {
+        // Retorna o objeto do último registro de pendencias de taxa de diferença de area, não paga
+        return PendenciasTaxas::where('solicitacaos_id', $this->solicitacaosId)
+            ->where('tipo_taxas_id', 3)
+            ->where('pendente', true)
+            ->orderBy('id', 'desc')
+            ->first(); // O first() já aplica o LIMIT 1 internamente
+    }
+
+     //usa Propriedade Computada para verifica se tem taxa de pendencia de 5 relatorio com base no id do boleto acima
+    #[Computed]
+    public function temTaxa5Relatorio()
+    {
+        // 1. Acessa a outra propriedade computada
+        $pendencia5relatorio = $this->temPendencia5Relatorio;
+
+        // 2. Verifica se a pendência existe e se possui um boletos_id
+        if (!$pendencia5relatorio || !$pendencia5relatorio->boletos_id) {
+            return null;
+        }
+
+        // 3. Busca a taxa usando o ID que veio da pendência
+        return Taxas::where('id', $pendencia5relatorio->boletos_id)
+            ->where('solicitacaos_id', $this->solicitacaosId)
+            ->first();
     }
 
     // usa o atributo para gerar um evento que refresh de pagina O Livewire detecta o evento e re-executa a query no render()

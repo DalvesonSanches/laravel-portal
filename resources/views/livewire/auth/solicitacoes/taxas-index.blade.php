@@ -35,58 +35,118 @@
                     @else
                         {{--se relatorio ja estiver assinado (nome_arquivo preenchido e numero_autenticacao)--}}
                         @if($this->temRelatorio->nome_arquivo && $this->temRelatorio->nome_arquivo)
-                            {{--//verifica se tem pendencia de diferença de area não paga--}}
-                            @if ($this->temPendenciasTaxas->id)
-                                {{--busca o boleto de diferença--}}
+                            {{--verifica se tem pendencia de diferença de area não paga--}}
+                            @if ($this->temPendenciasTaxas)
+                                @if ($this->temPendenciasTaxas->id)
+                                    {{--busca o boleto de diferença--}}
+                                    @if ($this->temtaxaDiferencaArea)
+                                        {{--verifica se a taxa ja venceu ou esta cancelada--}}
+                                        @if ($this->temtaxaDiferencaArea->situacao == 'V' || $this->temtaxaDiferencaArea->situacao == 'C')
+                                            {{--abrir modal de taxa de diferença--}}
+                                            <x-button round
+                                                class="w-full sm:w-auto justify-center"
+                                                icon="currency-dollar"
+                                                color="green"
+                                                wire:click="abrirModal({{ $solicitacaosId }})"
+                                                wire:loading.attr="disabled"
+                                                wire:target="abrirModal"
+                                                title="Taxa de diferença"
+                                            >
+                                                {{-- estado normal --}}
+                                                <span wire:loading.remove wire:target="abrirModal">
+                                                    Taxa de diferença
+                                                </span>
 
+                                                {{-- loading --}}
+                                                <span wire:loading wire:target="abrirModal">
+                                                    Carregando...
+                                                </span>
+                                            </x-button>
+                                        @endif
+                                    {{--se não tem o boleto de diferença--}}
+                                    @else
+                                        {{--abrir modal de taxa de diferença--}}
+                                        <x-button round
+                                            class="w-full sm:w-auto justify-center"
+                                            icon="currency-dollar"
+                                            color="green"
+                                            wire:click="abrirModal({{ $solicitacaosId }})"
+                                            wire:loading.attr="disabled"
+                                            wire:target="abrirModal"
+                                            title="Taxa de diferença"
+                                        >
+                                            {{-- estado normal --}}
+                                            <span wire:loading.remove wire:target="abrirModal">
+                                                Taxa de diferença
+                                            </span>
 
+                                            {{-- loading --}}
+                                            <span wire:loading wire:target="abrirModal">
+                                                Carregando...
+                                            </span>
+                                        </x-button>
+                                    @endif
+                                @endif
+                            @endif
+                            {{--verifica se tem taxa pendente de 5 relatorio--}}
+                            @if ($this->temPendencia5Relatorio)
+                                {{--se ja tem taxa verifica se ele esta vencido ou cancelado--}}
+                                @if ($this->temPendencia5Relatorio->boletos_id)
+                                        {{--verifica se tem taxa de 5 relatorio--}}
+                                        @if ($this->temTaxa5Relatorio)
+                                            {{--verifica se a taxa ja venceu ou esta cancelada--}}
+                                            @if($this->temTaxa5Relatorio->situacao == 'V' || $this->temTaxa5Relatorio->situacao == 'C')
+                                                {{--abrir modal de taxa de 5 relatorio--}}
+                                                <x-button round
+                                                    class="w-full sm:w-auto justify-center"
+                                                    icon="currency-dollar"
+                                                    color="green"
+                                                    wire:click="abrirModal({{ $solicitacaosId }})"
+                                                    wire:loading.attr="disabled"
+                                                    wire:target="abrirModal"
+                                                    title="Taxa de 5º relatório"
+                                                >
+                                                    {{-- estado normal --}}
+                                                    <span wire:loading.remove wire:target="abrirModal">
+                                                        Taxa de 5º relatório
+                                                    </span>
 
+                                                    {{-- loading --}}
+                                                    <span wire:loading wire:target="abrirModal">
+                                                        Carregando...
+                                                    </span>
+                                                </x-button>
+                                            @endif
+                                        {{--se ainda não tiver a taxa de 5 relatorio--}}
+                                        @else
+                                               {{--abrir modal de taxa de 5 relatorio--}}
+                                                <x-button round
+                                                    class="w-full sm:w-auto justify-center"
+                                                    icon="currency-dollar"
+                                                    color="green"
+                                                    wire:click="abrirModal({{ $solicitacaosId }})"
+                                                    wire:loading.attr="disabled"
+                                                    wire:target="abrirModal"
+                                                    title="Taxa de 5º relatório"
+                                                >
+                                                    {{-- estado normal --}}
+                                                    <span wire:loading.remove wire:target="abrirModal">
+                                                        Taxa de 5º relatório
+                                                    </span>
+
+                                                    {{-- loading --}}
+                                                    <span wire:loading wire:target="abrirModal">
+                                                        Carregando...
+                                                    </span>
+                                                </x-button>
+                                        @endif
+                                @endif
                             @endif
                         @endif
-
-
                     @endif
                 @endif
-                {{--abrir modal de taxa de diferença--}}
-                <x-button round
-                    class="w-full sm:w-auto justify-center"
-                    icon="currency-dollar"
-                    color="green"
-                    wire:click="abrirModal({{ $solicitacaosId }})"
-                    wire:loading.attr="disabled"
-                    wire:target="abrirModal"
-                    title="Taxa de diferença"
-                >
-                    {{-- estado normal --}}
-                    <span wire:loading.remove wire:target="abrirModal">
-                        Taxa de diferença
-                    </span>
 
-                    {{-- loading --}}
-                    <span wire:loading wire:target="abrirModal">
-                        Carregando...
-                    </span>
-                </x-button>
-                {{--abrir modal de taxa de 5 relatorio--}}
-                <x-button round
-                    class="w-full sm:w-auto justify-center"
-                    icon="currency-dollar"
-                    color="green"
-                    wire:click="abrirModal({{ $solicitacaosId }})"
-                    wire:loading.attr="disabled"
-                    wire:target="abrirModal"
-                    title="Taxa de 5º relatório"
-                >
-                    {{-- estado normal --}}
-                    <span wire:loading.remove wire:target="abrirModal">
-                        Taxa de 5º relatório
-                    </span>
 
-                    {{-- loading --}}
-                    <span wire:loading wire:target="abrirModal">
-                        Carregando...
-                    </span>
-                </x-button>
                 {{--abrir modal de taxa de reativação de processo--}}
                 <x-button round
                     class="w-full sm:w-auto justify-center"
