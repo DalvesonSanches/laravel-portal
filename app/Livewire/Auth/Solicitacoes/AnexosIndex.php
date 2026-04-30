@@ -20,6 +20,8 @@ class AnexosIndex extends Component
     public ?string $search = null;// 🔥 necessário para filter
     public array $headers = [];
     public ?string $solicitacaosId = null;
+    public ?string $solicitacaosStatus = null; //status da solicitação que veio como parametro
+    public ?string $solicitacaosServicosId = null; //servicos_id da solicitação que veio como parametro
     public bool $readonly = false; // Propriedade para receber o readonly
 
     //Este método define o que aparece na tela enquanto a aba carrega.
@@ -41,9 +43,11 @@ class AnexosIndex extends Component
         HTML;
     }
 
-    public function mount(?string $solicitacaosId = null, $readonly = false): void
+    public function mount(?string $solicitacaosId = null, ?string $solicitacaosStatus = null, ?string $solicitacaosServicosId = null, $readonly = false): void
     {
         $this->solicitacaosId = $solicitacaosId;
+        $this->solicitacaosStatus = $solicitacaosStatus;
+        $this->solicitacaosServicosId = $solicitacaosServicosId;
         $this->readonly = $readonly;
         $this->headers = [
             ['index' => 'tipo_data', 'label' => 'Tipo / Data'],//virtual para concatenar tipo e data
@@ -96,7 +100,7 @@ class AnexosIndex extends Component
             //$anexo = SolicitacaosAnexos::findOrFail($id);
             $anexo = SolicitacaosAnexos::with('itensTipos', 'solicitacao')->findOrFail($id);//carrega o relacionamento automaticamente
             $nomeTipo = $anexo->itensTipos->nome ?? 'Arquivo';//nome do tipo de anexo
-           
+
             $nomeUsuario = Auth::user()->name; // 5. Busca o nome do usuário logado (Tabela Users)
             $descricao = '[AUTOMÁTICA DO SISTEMA] - Anexo ' . $nomeTipo . ' removido por: ' . $nomeUsuario;//descricao do delete na ocorrencia
             $numProtocolo = $anexo->solicitacao->num_protocolo;//numero protocolo atraves do relacionamento belongto

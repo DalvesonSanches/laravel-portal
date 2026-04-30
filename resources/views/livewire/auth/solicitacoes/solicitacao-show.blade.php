@@ -312,6 +312,8 @@
                     {{--componente livewire de ocorrencias com o id da solicitacao como parametro e lazy para carregamento ao clicar--}}
                     <livewire:auth.solicitacoes.anexos-index
                         :solicitacaosId="$solicitacao->id" {{--envia solicitacao_id --}}
+                        :solicitacaosStatus="$solicitacao->status" {{--envia status --}}
+                        :solicitacaosServicosId="$solicitacao->servicos_id" {{--envia servicos_id --}}
                         :readonly="$readonly" {{--envia readonly --}}
                         wire:key="anexos-{{ $solicitacao->id }}"
                         lazy

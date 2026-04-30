@@ -3,26 +3,52 @@
         {{--se a variavel readonly for true exibi o botao--}}
         @if (!$readonly)
             <div class="mb-4"> {{-- Adicionado margem inferior --}}
-                {{--botao modal --}}
-                <x-button round
-                    class="w-full sm:w-auto justify-center"
-                    icon="paper-clip"
-                    color="green"
-                    wire:click="abrirModal({{ $solicitacaosId }})"
-                    wire:loading.attr="disabled"
-                    wire:target="abrirModal"
-                    title="Adicionar um novo anexo"
-                >
-                    {{-- estado normal --}}
-                    <span wire:loading.remove wire:target="abrirModal">
-                        Novo anexo
-                    </span>
+                {{-- se o processo estiver aguardando envio para todos os serviços"--}}
+                @if($solicitacaosStatus == 'AE')
+                    {{--botao modal --}}
+                    <x-button round
+                        class="w-full sm:w-auto justify-center"
+                        icon="paper-clip"
+                        color="green"
+                        wire:click="abrirModal({{ $solicitacaosId }})"
+                        wire:loading.attr="disabled"
+                        wire:target="abrirModal"
+                        title="Adicionar um novo anexo"
+                    >
+                        {{-- estado normal --}}
+                        <span wire:loading.remove wire:target="abrirModal">
+                            Novo anexo
+                        </span>
 
-                    {{-- loading --}}
-                    <span wire:loading wire:target="abrirModal">
-                        Carregando...
-                    </span>
-                </x-button>
+                        {{-- loading --}}
+                        <span wire:loading wire:target="abrirModal">
+                            Carregando...
+                        </span>
+                    </x-button>
+                @endif
+                {{-- se o processo estiver aguardando envio ou aguardando pagamento e for de show ou de parque"--}}
+                @if($solicitacaosStatus == 'AP' && ($solicitacaosServicosId == 29 || $solicitacaosServicosId == 26) )
+                    {{--botao modal --}}
+                    <x-button round
+                        class="w-full sm:w-auto justify-center"
+                        icon="paper-clip"
+                        color="green"
+                        wire:click="abrirModal({{ $solicitacaosId }})"
+                        wire:loading.attr="disabled"
+                        wire:target="abrirModal"
+                        title="Adicionar um novo anexo"
+                    >
+                        {{-- estado normal --}}
+                        <span wire:loading.remove wire:target="abrirModal">
+                            Novo anexo
+                        </span>
+
+                        {{-- loading --}}
+                        <span wire:loading wire:target="abrirModal">
+                            Carregando...
+                        </span>
+                    </x-button>
+                @endif
             </div>
         @endif
         {{--tabela--}}
