@@ -145,7 +145,7 @@ class Solicitacao extends Model
     {
         return $this->belongsTo(ServicoSubtipo::class, 'servicos_subtipos_id', 'id');
     }
-    
+
     public function alvaras()
     {
         return $this->hasMany(Alvaras::class, 'solicitacaos_id', 'id');
@@ -172,6 +172,7 @@ class Solicitacao extends Model
                 'E'     => 'Encerrado',
                 'AE'    => 'Aguardando Envio',
                 'C'     => 'Cancelado',
+                'SU'     => 'Suspenso',
                 default => $this->status,
             };
         });

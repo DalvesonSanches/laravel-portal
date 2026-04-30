@@ -1,14 +1,12 @@
 <div>
+    {{$solicitacaosStatus}};
+    {{$solicitacaosIsento}};
     <div>
-        {{ $solicitacaosStatus }};
-        {{ $solicitacaosServicosId }};
-        {{ $solicitacaosIsento }};
-
-        {{--se a variavel readonly for true exibi o botao--}}
+         {{--se a variavel readonly for true exibi o botao--}}
         @if (!$readonly)
             <div class="mb-4"> {{-- Adicionado margem inferior --}}
                 {{-- se o processo não estiver encerrado, cancelado, vencido e empresa não isenta de taxa "1 direto no blade"--}}
-                @if(($solicitacaosStatus != 'E' || $solicitacaosStatus != 'C' || $solicitacaosStatus != 'VE') && !$solicitacaosIsento)
+                @if($solicitacaosStatus != 'E' && $solicitacaosStatus != 'C' && $solicitacaosStatus != 'VE' && $solicitacaosStatus != 'SU' && !$solicitacaosIsento)
                     {{--nao tem taxa de abertura aguardando ou paga (A, p)--}}
                     @if (!$this->temTaxaAbertura)
                         {{--abrir modal de taxa de abertura de processo--}}
@@ -145,28 +143,32 @@
                         @endif
                     @endif
                 @endif
+                {{-- se o processo não estiver suspenso e empresa não isenta de taxa "1 direto no blade"--}}
+                @if( $solicitacaosStatus == 'SU' && !$solicitacaosIsento)
+                   {{--nao tem taxa de suspensao aguardando ou paga (A, p)--}}
+                    @if (!$this->temTaxaSuspenso)
+                        {{--abrir modal de taxa de reativação de processo--}}
+                        <x-button round
+                            class="w-full sm:w-auto justify-center"
+                            icon="currency-dollar"
+                            color="green"
+                            wire:click="abrirModal({{ $solicitacaosId }})"
+                            wire:loading.attr="disabled"
+                            wire:target="abrirModal"
+                            title="Taxa de reativação de processo"
+                        >
+                            {{-- estado normal --}}
+                            <span wire:loading.remove wire:target="abrirModal">
+                                Taxa de reativação
+                            </span>
 
-
-                {{--abrir modal de taxa de reativação de processo--}}
-                <x-button round
-                    class="w-full sm:w-auto justify-center"
-                    icon="currency-dollar"
-                    color="green"
-                    wire:click="abrirModal({{ $solicitacaosId }})"
-                    wire:loading.attr="disabled"
-                    wire:target="abrirModal"
-                    title="Taxa de reativação de processo"
-                >
-                    {{-- estado normal --}}
-                    <span wire:loading.remove wire:target="abrirModal">
-                        Taxa de reativação
-                    </span>
-
-                    {{-- loading --}}
-                    <span wire:loading wire:target="abrirModal">
-                        Carregando...
-                    </span>
-                </x-button>
+                            {{-- loading --}}
+                            <span wire:loading wire:target="abrirModal">
+                                Carregando...
+                            </span>
+                        </x-button>
+                    @endif
+                @endif
             </div>
         @endif
         {{--tabela--}}

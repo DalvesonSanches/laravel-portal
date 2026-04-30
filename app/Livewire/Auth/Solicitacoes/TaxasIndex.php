@@ -132,7 +132,7 @@ class TaxasIndex extends Component
             ->first(); // O first() já aplica o LIMIT 1 internamente
     }
 
-     //usa Propriedade Computada para verifica se tem taxa de pendencia de 5 relatorio com base no id do boleto acima
+    //usa Propriedade Computada para verifica se tem taxa de pendencia de 5 relatorio com base no id do boleto acima
     #[Computed]
     public function temTaxa5Relatorio()
     {
@@ -148,6 +148,16 @@ class TaxasIndex extends Component
         return Taxas::where('id', $pendencia5relatorio->boletos_id)
             ->where('solicitacaos_id', $this->solicitacaosId)
             ->first();
+    }
+
+    //usa Propriedade Computada para verifica se tem taxa de suspensão de projeto gerada
+    #[Computed]
+    public function temTaxaSuspenso()
+    {
+        return Taxas::where('solicitacaos_id', $this->solicitacaosId)
+            ->where('tipo_taxas_id', 4)
+            ->whereIn('situacao', ['A', 'P'])
+            ->exists();
     }
 
     // usa o atributo para gerar um evento que refresh de pagina O Livewire detecta o evento e re-executa a query no render()
