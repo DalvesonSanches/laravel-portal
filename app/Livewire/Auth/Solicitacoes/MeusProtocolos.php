@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Solicitacao;
 use TallStackUi\Traits\Interactions;//dialogos
-use Illuminate\Support\Str;//uso para susbtituir o cpf por asteriscos
 
 #[Layout('layouts.auth')]
 class MeusProtocolos extends Component
