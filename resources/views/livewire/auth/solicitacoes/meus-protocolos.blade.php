@@ -1,4 +1,11 @@
-<div class="py-5">
+{{-- 1. Adicione o x-data no topo do seu arquivo .blade.php --}}
+<div class="py-5" x-data="{ carregandoGlobal: false }">
+     {{-- 2. Adicione uma trava visual transparente que cobre a tela se estiver carregando --}}
+    <div x-show="carregandoGlobal" 
+         class="fixed inset-0 z-50 cursor-wait bg-white/10" 
+         style="display: none;">
+    </div>
+    
     <x-slot:title>
         Meus Protocolos
     </x-slot:title>
@@ -37,51 +44,88 @@
                         {{ $row->nome_servico }}
                     </div>
                 @endinteract
-                {{-- barra de aççoes --}}
+                {{-- barra de ações --}}
                 @interact('column_action', $row)
-                   <div class="flex gap-2" wire:loading.class="opacity-50 pointer-events-none"> {{-- Esmaece os botões ao carregar --}}
-                        {{--botao show da solicitacao--}}
+                    <div class="flex items-center gap-2">
+                        {{-- 1. Botão Principal: Visualizar --}}
                         <x-button.circle
                             icon="eye"
                             wire:click="visualizar('{{ $row->autenticidade }}')"
-                            wire:loading.attr="disabled"
+                            x-on:click="carregandoGlobal = true"
+                            x-bind:disabled="carregandoGlobal"
                             color="blue"
-                            title="Abrir este protocolo"
+                            title="Visualizar"
                         />
-                        {{--botao modal de responsaveis--}}
+
+                        {{-- 2. Botão Principal: Responsáveis --}}
                         <x-button.circle
                             icon="share"
                             color="cyan"
                             wire:click="$dispatch('abrir-solicitacao-responsaveis', { solicitacaoId: {{ $row->id }} })"
                             wire:loading.attr="disabled"
-                            title="Ver responsaveis deste protocolo"
+                            x-bind:disabled="carregandoGlobal"
+                            title="Responsáveis"
                         />
-                        {{--botao de alterar--}}
-                        <x-button.circle
-                            icon="pencil"
-                            wire:click="editar({{ $row->id }})"
-                            wire:loading.attr="disabled"
-                            color="yellow"
-                            title="Alterar este protocolo"
-                        />
-                        {{--botao delete--}}
-                        <x-button.circle
-                            icon="trash"
-                            wire:click="abrir('{{ $row->id }}')"
-                            color="red"
-                            wire:loading.attr="disabled"
-                            title="Apagar este protocolo"
-                        />
+
+                        {{-- 3. Menu de Opções com Gatilho em Círculo --}}
+                        <x-dropdown static>
+                            <x-slot:action>
+                                <x-button.circle 
+                                    icon="ellipsis-vertical" 
+                                    color="zinc"
+                                    title="Ver opções"
+                                    x-on:click="show = !show" {{-- Abre/Fecha o menu --}}
+                                    x-bind:disabled="carregandoGlobal"
+                                />
+                            </x-slot:action>
+
+                            {{-- Itens do Menu --}}
+                            <x-dropdown.items 
+                                icon="eye" 
+                                text="Visualizar Protocolo" 
+                                separator
+                                wire:click="visualizar('{{ $row->autenticidade }}')"
+                                x-on:click="carregandoGlobal = true"
+                            />
+                            
+                            <x-dropdown.items 
+                                icon="share" 
+                                text="Ver Responsáveis" 
+                                separator
+                                wire:click="$dispatch('abrir-solicitacao-responsaveis', { solicitacaoId: {{ $row->id }} })"
+                            />
+
+                            <x-dropdown.items 
+                                icon="pencil" 
+                                text="Editar Registro" 
+                                separator
+                                wire:click="editar({{ $row->id }})"
+                                x-on:click="carregandoGlobal = true"
+                            />
+                            {{--excluir--}}
+                            <x-dropdown.items 
+                                icon="trash" 
+                                text="Excluir Solicitação" 
+                                separator
+                                wire:click="confirmarExclusao('{{ $row->id }}')"
+                            />
+                            {{--cancelar--}}
+                            <x-dropdown.items 
+                                icon="no-symbol" 
+                                text="Cancelar a solicitação" 
+                                separator
+                                wire:click="confirmarExclusao('{{ $row->id }}')"
+                            />
+                        </x-dropdown>
                     </div>
                 @endinteract
+
+
+
+
+
             </x-table>
 
-            {{-- Paginação manual--}}
-            {{--
-            <div class="mt-4">
-                {{ $rows->links() }}
-            </div>
-        --}}
         </x-card>
     </div>
 

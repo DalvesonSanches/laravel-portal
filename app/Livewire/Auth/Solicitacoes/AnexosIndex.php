@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth; //para usar os dados do usuario logado
 use App\Services\MinioStorageService; // Importe seu service
 use TallStackUi\Traits\Interactions;
 use Livewire\Attributes\On; // atributo para gerar eventos listeners O atributo #[On] serve exclusivamente para ouvir (escutar) eventos
+use Illuminate\Support\Str;//uso para susbtituir o cpf por asteriscos
 
 class AnexosIndex extends Component
 {
@@ -101,8 +102,13 @@ class AnexosIndex extends Component
             $anexo = SolicitacaosAnexos::with('itensTipos', 'solicitacao')->findOrFail($id);//carrega o relacionamento automaticamente
             $nomeTipo = $anexo->itensTipos->nome ?? 'Arquivo';//nome do tipo de anexo
 
-            $nomeUsuario = Auth::user()->name; // 5. Busca o nome do usuário logado (Tabela Users)
-            $descricao = '[AUTOMÁTICA DO SISTEMA] - Anexo ' . $nomeTipo . ' removido por: ' . $nomeUsuario;//descricao do delete na ocorrencia
+            //informações usuario logado
+            $nomeUsuario = Auth::user()->name;// 5. Busca o nome do usuário logado (Tabela Users)
+            $cpfUsuario = Auth::user()->cpf;// busca o cpf do usuario
+            $cpfLimpo = preg_replace('/[^0-9]/', '', $cpfUsuario);// Remove qualquer pontuação caso o CPF venha com pontos/traços do banco
+            $cpfFinal = Str::substr($cpfLimpo, 0, 3) . '.***.***-' . Str::substr($cpfLimpo, -2);// Pega os 3 primeiros e os 2 últimos
+
+            $descricao = '[AUTOMÁTICA DO SISTEMA] - Anexo ' . $nomeTipo . ' removido por: ' . $nomeUsuario . 'CPF: ' . $cpfFinal;//descricao do delete na ocorrencia
             $numProtocolo = $anexo->solicitacao->num_protocolo;//numero protocolo atraves do relacionamento belongto
             $bucket = 'sistec-bucket';
             $caminhoNoMinio = 'anexos/' . $anexo->arquivo_nome;

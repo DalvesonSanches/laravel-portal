@@ -13,6 +13,7 @@ use App\Services\AnexosService; //service de lista de anexos pendentes
 use Illuminate\Support\Facades\DB; //uso de union no select sem modal
 use Livewire\WithFileUploads; //auxilia envio de arquivos
 use TallStackUi\Traits\Interactions; //alertas e toasts
+use Illuminate\Support\Str;//uso para susbtituir o cpf por asteriscos
 
 class AnexosCreate extends Component
 {
@@ -104,11 +105,14 @@ class AnexosCreate extends Component
                 $labelSelecionado = collect($this->tipoAnexo)
                     ->firstWhere('value', $this->tipo_anexo_id)['label'] ?? 'Arquivo';
 
-                // 5. Busca o nome do usuário logado (Tabela Users)
-                $nomeUsuario = Auth::user()->name;
+                //informações usuario logado
+                $nomeUsuario = Auth::user()->name;// 5. Busca o nome do usuário logado (Tabela Users)
+                $cpfUsuario = Auth::user()->cpf;// busca o cpf do usuario
+                $cpfLimpo = preg_replace('/[^0-9]/', '', $cpfUsuario);// Remove qualquer pontuação caso o CPF venha com pontos/traços do banco
+                $cpfFinal = Str::substr($cpfLimpo, 0, 3) . '.***.***-' . Str::substr($cpfLimpo, -2);// Pega os 3 primeiros e os 2 últimos
 
                 // 6. Monta a base da descrição
-                $descricaoAutomatica = '[AUTOMÁTICA DO SISTEMA] - Anexo ' . $labelSelecionado . ' adicionado por: ' . $nomeUsuario;
+                $descricaoAutomatica = '[AUTOMÁTICA DO SISTEMA] - Anexo ' . $labelSelecionado . ' adicionado por: ' . $nomeUsuario. 'CPF: '. $cpfFinal;
 
                 // 7. Adiciona observações apenas se não estiverem vazias
                 if (!empty($this->observacoes)) {

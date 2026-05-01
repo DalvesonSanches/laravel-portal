@@ -9,12 +9,14 @@ use Livewire\Attributes\Session; // garante o filtro e a paginação ao clicar n
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Solicitacao;
+use TallStackUi\Traits\Interactions;//dialogos
+use Illuminate\Support\Str;//uso para susbtituir o cpf por asteriscos
 
 #[Layout('layouts.auth')]
 class MeusProtocolos extends Component
 {
     use WithPagination;
-
+    use Interactions;
     // 🔹 Salva a quantidade na sessão do servidor
     #[Session]
     public int $quantity = 10;
@@ -91,6 +93,37 @@ class MeusProtocolos extends Component
     {
         return $this->redirectRoute('dashboard', ['id' => $id], navigate: true);
     }
+
+
+    // 1. Método de confirmação
+    public function confirmarExclusao(int $id): void
+    {
+        $this->dialog()
+            ->question('Apagar esta solicitação', 'Tem certeza que deseja excluir permanentemente esta solicitação?')
+            // Passamos o $id como parâmetro para o método 'delete'
+            ->confirm('Sim, excluir', 'delete', $id)
+            ->cancel('Cancelar')
+            ->send();
+    }
+
+    // 2. Método de exclusão (agora recebe o ID)
+    public function delete(int $id): void
+    {
+        try {
+           
+            //1º verificar se tem taxa
+            //2º se tiver taxa paga nao deleta
+            //3º se nao tiver taxa paga ou se nao tiver taxa pode ser isento, dai verifica se tem relatorio criado
+            //4º se tiver relatorio criado não deleta
+            //5º se nao tiver relatorio e nao tiver taxa entao deleta
+
+            $this->toast()->success('Sucesso', 'Solicitação de serviço removidade com sucesso!')->send();
+
+        } catch (\Exception $e) {
+            $this->toast()->error('Erro', 'Falha ao remover a solicitação de serviço.')->send();
+        }
+    }
+
 
     public function render()
     {
