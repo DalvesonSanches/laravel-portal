@@ -63,7 +63,7 @@ class AnexosIndex extends Component
         $this->resetPage();
     }
 
-    // Método para processar o download
+    // Método para processar o download ($id vem do blade na opção download)
     public function download(int $id, MinioStorageService $storageService)
     {
         $anexo = SolicitacaosAnexos::findOrFail($id);
@@ -138,7 +138,7 @@ class AnexosIndex extends Component
         }
     }
 
-    //abre o modal do create
+    //abre o modal do create (recebendo $solicitacaosId que vem do blade)
     public function abrirModal($id)
     {
         $this->dispatch('abrir-anexos-create', solicitacaoId: $id);

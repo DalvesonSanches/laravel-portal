@@ -14,18 +14,18 @@
                             class="w-full sm:w-auto justify-center"
                             icon="currency-dollar"
                             color="green"
-                            wire:click="abrirModal({{ $solicitacaosId }})"
+                            wire:click="abrirModalTaxaAbertura({{ $solicitacaosId }})"
                             wire:loading.attr="disabled"
-                            wire:target="abrirModal"
+                            wire:target="abrirModalTaxaAbertura"
                             title="Taxa de abertura de processo"
                         >
                             {{-- estado normal --}}
-                            <span wire:loading.remove wire:target="abrirModal">
+                            <span wire:loading.remove wire:target="abrirModalTaxaAbertura">
                                 Taxa de abertura
                             </span>
 
                             {{-- loading --}}
-                            <span wire:loading wire:target="abrirModal">
+                            <span wire:loading wire:target="abrirModalTaxaAbertura">
                                 Carregando...
                             </span>
                         </x-button>
@@ -45,18 +45,18 @@
                                                 class="w-full sm:w-auto justify-center"
                                                 icon="currency-dollar"
                                                 color="green"
-                                                wire:click="abrirModal({{ $solicitacaosId }})"
+                                                wire:click="abrirModalTaxaDiferenca({{ $solicitacaosId }})"
                                                 wire:loading.attr="disabled"
-                                                wire:target="abrirModal"
+                                                wire:target="abrirModalTaxaDiferenca"
                                                 title="Taxa de diferença"
                                             >
                                                 {{-- estado normal --}}
-                                                <span wire:loading.remove wire:target="abrirModal">
+                                                <span wire:loading.remove wire:target="abrirModalTaxaDiferenca">
                                                     Taxa de diferença
                                                 </span>
 
                                                 {{-- loading --}}
-                                                <span wire:loading wire:target="abrirModal">
+                                                <span wire:loading wire:target="abrirModalTaxaDiferenca">
                                                     Carregando...
                                                 </span>
                                             </x-button>
@@ -68,18 +68,18 @@
                                             class="w-full sm:w-auto justify-center"
                                             icon="currency-dollar"
                                             color="green"
-                                            wire:click="abrirModal({{ $solicitacaosId }})"
+                                            wire:click="abrirModalTaxaDiferenca({{ $solicitacaosId }})"
                                             wire:loading.attr="disabled"
-                                            wire:target="abrirModal"
+                                            wire:target="abrirModalTaxaDiferenca"
                                             title="Taxa de diferença"
                                         >
                                             {{-- estado normal --}}
-                                            <span wire:loading.remove wire:target="abrirModal">
+                                            <span wire:loading.remove wire:target="abrirModalTaxaDiferenca">
                                                 Taxa de diferença
                                             </span>
 
                                             {{-- loading --}}
-                                            <span wire:loading wire:target="abrirModal">
+                                            <span wire:loading wire:target="abrirModalTaxaDiferenca">
                                                 Carregando...
                                             </span>
                                         </x-button>
@@ -99,18 +99,18 @@
                                                     class="w-full sm:w-auto justify-center"
                                                     icon="currency-dollar"
                                                     color="green"
-                                                    wire:click="abrirModal({{ $solicitacaosId }})"
+                                                    wire:click="abrirModalTaxa5Relatorio({{ $solicitacaosId }})"
                                                     wire:loading.attr="disabled"
-                                                    wire:target="abrirModal"
+                                                    wire:target="abrirModalTaxa5Relatorio"
                                                     title="Taxa de 5º relatório"
                                                 >
                                                     {{-- estado normal --}}
-                                                    <span wire:loading.remove wire:target="abrirModal">
+                                                    <span wire:loading.remove wire:target="abrirModalTaxa5Relatorio">
                                                         Taxa de 5º relatório
                                                     </span>
 
                                                     {{-- loading --}}
-                                                    <span wire:loading wire:target="abrirModal">
+                                                    <span wire:loading wire:target="abrirModalTaxa5Relatorio">
                                                         Carregando...
                                                     </span>
                                                 </x-button>
@@ -122,18 +122,18 @@
                                                     class="w-full sm:w-auto justify-center"
                                                     icon="currency-dollar"
                                                     color="green"
-                                                    wire:click="abrirModal({{ $solicitacaosId }})"
+                                                    wire:click="abrirModalTaxa5Relatorio({{ $solicitacaosId }})"
                                                     wire:loading.attr="disabled"
-                                                    wire:target="abrirModal"
+                                                    wire:target="abrirModalTaxa5Relatorio"
                                                     title="Taxa de 5º relatório"
                                                 >
                                                     {{-- estado normal --}}
-                                                    <span wire:loading.remove wire:target="abrirModal">
+                                                    <span wire:loading.remove wire:target="abrirModalTaxa5Relatorio">
                                                         Taxa de 5º relatório
                                                     </span>
 
                                                     {{-- loading --}}
-                                                    <span wire:loading wire:target="abrirModal">
+                                                    <span wire:loading wire:target="abrirModalTaxa5Relatorio">
                                                         Carregando...
                                                     </span>
                                                 </x-button>
@@ -152,18 +152,18 @@
                             class="w-full sm:w-auto justify-center"
                             icon="currency-dollar"
                             color="green"
-                            wire:click="abrirModal({{ $solicitacaosId }})"
+                            wire:click="abrirModalTaxaSuspensao({{ $solicitacaosId }})"
                             wire:loading.attr="disabled"
-                            wire:target="abrirModal"
+                            wire:target="abrirModalTaxaSuspensao"
                             title="Taxa de reativação de processo"
                         >
                             {{-- estado normal --}}
-                            <span wire:loading.remove wire:target="abrirModal">
+                            <span wire:loading.remove wire:target="abrirModalTaxaSuspensao">
                                 Taxa de reativação
                             </span>
 
                             {{-- loading --}}
-                            <span wire:loading wire:target="abrirModal">
+                            <span wire:loading wire:target="abrirModalTaxaSuspensao">
                                 Carregando...
                             </span>
                         </x-button>

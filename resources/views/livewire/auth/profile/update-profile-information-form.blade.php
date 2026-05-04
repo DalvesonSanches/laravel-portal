@@ -149,14 +149,17 @@ new class extends Component
             @endif
 
             {{-- Footer --}}
-            <div class="flex items-center gap-4">
-                <x-button
-                    text="{{ __('Atualizar informações') }}"
+            <div class="w-full mb-4 flex flex-col sm:flex-row gap-2">
+                <x-button round
+                    class="w-full sm:w-auto justify-center" {{-- Ajusta largura no mobile --}}
+                    icon="user"
                     type="submit"
                     color="blue"
-                />
+                >
+                    Atualizar informações
+                </x-button>
 
-                <x-action-message on="profile-updated">
+                <x-action-message on="password-updated">
                     {{ __('Atualizado com sucesso.') }}
                 </x-action-message>
             </div>
@@ -173,7 +176,7 @@ new class extends Component
         <div class="bg-white p-6 rounded shadow flex items-center gap-3 dark:bg-gray-800 dark:border-gray-700">
             <!-- Adicionado dark:border-white e dark:border-t-transparent -->
             <div class="animate-spin inline-block w-9 h-9 border-2 rounded-full border-gray-700 border-t-transparent dark:border-white dark:border-t-transparent"></div>
-            
+
             <div class="text-gray-900 dark:text-gray-100">Processando... aguarde.</div>
         </div>
     </div>

@@ -382,6 +382,18 @@
 
             {{-- componente do modal de criar anexos a nivel global--}}
             <livewire:auth.solicitacoes.anexos-create wire:key="modal-global-create-anexos" />
+
+            {{-- componente do modal de criar taxa abertura--}}
+            <livewire:auth.solicitacoes.taxas-create-abertura wire:key="modal-global-create-taxas-abertura" />
+
+            {{-- componente do modal de criar taxa de diferença--}}
+            <livewire:auth.solicitacoes.taxas-create-diferenca wire:key="modal-global-create-taxas-diferenca" />
+
+            {{-- componente do modal de criar taxa de 5 relatorio--}}
+            <livewire:auth.solicitacoes.taxas-create5-relatorio wire:key="modal-global-create-taxas-5relatorio" />
+
+            {{-- componente do modal de criar taxa de suspensao--}}
+            <livewire:auth.solicitacoes.taxas-create-suspensao wire:key="modal-global-create-taxas-suspensao" />
         </x-card>
 
     </div>

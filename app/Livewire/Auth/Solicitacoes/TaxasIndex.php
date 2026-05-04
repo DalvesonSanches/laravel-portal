@@ -164,6 +164,30 @@ class TaxasIndex extends Component
     #[On('refresh-taxas')]
     public function refresh(){}
 
+    //abre o modal do create de taxas de abertura (recebendo o id que vem do clique no blade, geralmente solicitacaosId)
+    public function abrirModalTaxaAbertura($id)
+    {
+        $this->dispatch('abrir-taxas-create-abertura', solicitacaoId: $id);
+    }
+
+    //abre o modal do create de taxas de diferença (recebendo o id que vem do clique no blade, geralmente solicitacaosId)
+    public function abrirModalTaxaDiferenca($id)
+    {
+        $this->dispatch('abrir-taxas-create-diferenca', solicitacaoId: $id);
+    }
+
+    //abre o modal do create de taxas de suspensao (recebendo o id que vem do clique no blade, geralmente solicitacaosId)
+    public function abrirModalTaxaSuspensao($id)
+    {
+        $this->dispatch('abrir-taxas-create-suspensao', solicitacaoId: $id);
+    }
+
+    //abre o modal do create de taxas de 5 relatorio (recebendo o id que vem do clique no blade, geralmente solicitacaosId)
+    public function abrirModalTaxa5Relatorio($id)
+    {
+        $this->dispatch('abrir-taxas-create5-relatorio', solicitacaoId: $id);
+    }
+
     public function render()
     {
         $rows = Taxas::query()
