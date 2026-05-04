@@ -50,7 +50,7 @@
             <x-card class="border border-red-200 dark:border-red-700">
                  <!-- Header -->
                 <x-slot:header>
-                    <div class="px-6 py-5 border-red-200 dark:border-red-700">
+                    <div class="border px-6 py-5 border-red-200 dark:border-red-700">
                         <h2 class="text-base font-semibold text-red-600 dark:text-red-400">
                             {{ __('Excluir Conta') }}
                         </h2>
