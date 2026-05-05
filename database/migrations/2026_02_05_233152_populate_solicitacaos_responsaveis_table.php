@@ -29,20 +29,14 @@ return new class extends Migration
             INSERT INTO sistec.solicitacaos_responsaveis (
                 solicitacaos_id,
                 tipo_solicitante_id,
-                nome,
                 cpf,
-                telefone,
-                email,
                 created_at,
                 updated_at
             )
             SELECT
                 solicitacaos.id AS solicitacaos_id,
                 solicitacaos.tipo_solicitante_id,
-                solicitantes.nome,
                 solicitantes.cpf,
-                regexp_replace(solicitantes.telefone, '[^0-9]', '', 'g') AS telefone,
-                solicitantes.email,
                 solicitacaos.created_at,
                 solicitacaos.updated_at
             FROM

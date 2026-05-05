@@ -9,7 +9,7 @@
                     <div class="w-72"> {{-- largura fixa elegante --}}
                         <x-input
                             label="CPF"
-                            wire:model="cpf"
+                            wire:model.live="cpf"
                             x-mask="999.999.999-99"
                         />
 
@@ -41,7 +41,7 @@
                     <div class="flex-1">
                         <x-select.styled
                             label="Tipo de Solicitante"
-                            wire:model="tipo_solicitante_id"
+                            wire:model.live="tipo_solicitante_id"
                             :options="$tipoSolicitante"
                             placeholder="Selecione um tipo"
                         />
@@ -79,7 +79,7 @@
                     icon="check"
                     color="blue"
                     wire:click="salvar"
-                    :disabled="!$nome"
+                    :disabled="!$tipo_solicitante_id || !$cpf"
                     loading="salvar"
                 >
                     <span wire:loading.remove wire:target="salvar">

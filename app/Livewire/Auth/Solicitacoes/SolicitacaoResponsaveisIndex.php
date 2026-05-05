@@ -6,6 +6,10 @@ use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use App\Models\SolicitacaoResponsavel;
 use TallStackUi\Traits\Interactions;
+use App\Models\Solicitacao;
+use App\Models\Ocorrencias;
+use Illuminate\Support\Facades\Auth; //para usar os dados do usuario logado
+use Illuminate\Support\Str;//uso para susbtituir o cpf por asteriscos
 
 class SolicitacaoResponsaveisIndex extends Component
 {
@@ -26,6 +30,7 @@ class SolicitacaoResponsaveisIndex extends Component
     {
         $this->headers = [
             ['index' => 'tipo', 'label' => 'Tipo'],
+            ['index' => 'cpf', 'label' => 'CPF'],
             ['index' => 'nome', 'label' => 'Nome'],
             ['index' => 'telefone', 'label' => 'Telefone'],
             ['index' => 'email', 'label' => 'E-mail'],
@@ -52,22 +57,12 @@ class SolicitacaoResponsaveisIndex extends Component
     public function carregarResponsaveis(): void
     {
         $this->rows = SolicitacaoResponsavel::query()
-            ->select([
-                'solicitacaos_responsaveis.id',
-                'tipo_solicitante.tipo',
-                'solicitacaos_responsaveis.nome',
-                'solicitacaos_responsaveis.cpf',
-                'solicitacaos_responsaveis.telefone',
-                'solicitacaos_responsaveis.email',
+            ->with([
+                'tipoSolicitante:id,tipo',
+                'user:id,cpf,name,telefone,email',
             ])
-            ->join(
-                'sistec.tipo_solicitante',
-                'tipo_solicitante.id',
-                '=',
-                'solicitacaos_responsaveis.tipo_solicitante_id'
-            )
-            ->where('solicitacaos_responsaveis.solicitacaos_id', $this->solicitacaoId)
-            ->orderBy('solicitacaos_responsaveis.id')
+            ->where('solicitacaos_id', $this->solicitacaoId)
+            ->orderBy('id')
             ->get();
     }
 
@@ -108,6 +103,30 @@ class SolicitacaoResponsaveisIndex extends Component
             return;
         }
 
+        //informações usuario logado
+        $nomeUsuario = Auth::user()->name;// 5. Busca o nome do usuário logado (Tabela Users)
+        $cpfUsuario = Auth::user()->cpf;// busca o cpf do usuario
+        $cpfLimpoLogado = preg_replace('/[^0-9]/', '', $cpfUsuario);// Remove qualquer pontuação caso o CPF venha com pontos/traços do banco
+        $cpfFinal = Str::substr($cpfLimpoLogado, 0, 3) . '.***.***-' . Str::substr($cpfLimpoLogado, -2);// Pega os 3 primeiros e os 2 últimos
+
+        // 6. Monta a base da descrição
+        $descricaoAutomatica = '[AUTOMÁTICA DO SISTEMA] - Responsavel: ' . $responsavel->cpf . ' Removido por: ' . $nomeUsuario. ' CPF: '. $cpfFinal;
+
+        $solicitacao = Solicitacao::findOrFail($this->solicitacaoId);// Buscamos os dados da solicitação
+        // se encontrou, gera a ocorrencia
+        if ($solicitacao) {
+            // array com informações para criar o registro da ocorrencia
+            $dataOcorrencia = ([
+                'num_protocolo'         => $solicitacao->num_protocolo,
+                'tipo_ocorrencias_id'   => 104,
+                'data_ocorrencia'       => now(),
+                'descricao'             => $descricaoAutomatica,
+                'usuarios_id'           => 1,
+                'usuario_lotacao'       => 'CETI',
+            ]);
+            Ocorrencias::create($dataOcorrencia);//gera o registro de ocorrencias
+        }
+
         // Exclui
         $responsavel->delete();
 
@@ -118,7 +137,7 @@ class SolicitacaoResponsaveisIndex extends Component
         // Feedback visual
         $this->toast()
             ->success('Sucesso', 'Responsável excluído.')
-            ->send();            
+            ->send();
     }
 
     public function render()

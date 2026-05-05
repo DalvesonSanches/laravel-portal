@@ -18,10 +18,10 @@ return new class extends Migration
             $table->unsignedBigInteger('solicitacaos_id');
             $table->unsignedBigInteger('tipo_solicitante_id');
 
-            $table->string('nome');
+            //$table->string('nome');
             $table->string('cpf', 14);
-            $table->string('telefone', 20)->nullable();
-            $table->string('email')->nullable();
+            //$table->string('telefone', 20)->nullable();
+            //$table->string('email')->nullable();
 
             $table->timestamps();
 
