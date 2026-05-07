@@ -10,10 +10,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
+use TallStackUi\Traits\Interactions;
 
 #[Layout('layouts.guest')]
 class Registro extends Component
 {
+    use Interactions;
     public string $name = '';
     public string $cpf = '';
     public string $telefone = '';
@@ -83,7 +85,7 @@ class Registro extends Component
         //dialogo sucesso
         $this->dialog()
             ->success('Sucesso!', 'Cadastrado concluido com sucesso, agora você terá acesso a criar novas<br> solicitacoes de serviço e acesso a todos os protocolos que você seja responsavel!')
-            ->flash() 
+            ->flash()
             ->send();
 
         $this->redirect(route('dashboard', absolute: false), navigate: true);

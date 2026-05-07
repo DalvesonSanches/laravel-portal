@@ -3,7 +3,6 @@
 namespace App\Livewire\Auth\Profile;
 
 use App\Models\User;
-use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
@@ -19,14 +18,14 @@ class DeleteUser extends Component
     public function abrir(): void{
 
         $this->dialog()
-            ->question('Atenção', 'Tem certeza que deseja deletar seu usuário?')
+            ->question('Atenção', 'Este procedimento é irevesivel, tem certeza que deseja deletar seu usuário?')
             ->confirm('Sim', 'confirmed')
             ->cancel('Não', 'cancelled')
             ->send();
     }
 
     // Chamado quando clica em "Sim"
-    public function confirmed(Logout $logout): void
+    public function confirmed(): void
     {
         /*
         //validação da senha
@@ -36,10 +35,15 @@ class DeleteUser extends Component
         */
 
         $user = Auth::user();
+
         if ($user instanceof User) {
-            $logout($user);
             $user->delete();
         }
+
+        Auth::logout();
+
+        session()->invalidate();
+        session()->regenerateToken();
 
         $this->dialog()
             ->success('Sucesso', 'Usuário deletado com sucesso!')
@@ -47,6 +51,7 @@ class DeleteUser extends Component
             ->send();
 
         $this->redirect(route('login'), navigate: true);
+        //return $this->redirect(route('login'));
     }
 
     // Chamado quando clica em "Não"
