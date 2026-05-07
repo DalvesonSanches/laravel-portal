@@ -50,8 +50,8 @@ class DeleteUser extends Component
             ->flash()
             ->send();
 
-        $this->redirect(route('login'), navigate: true);
-        //return $this->redirect(route('login'));
+        //$this->redirect(route('login'), navigate: true);
+        $this->redirect(route('login'));
     }
 
     // Chamado quando clica em "Não"
