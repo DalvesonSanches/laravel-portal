@@ -61,6 +61,43 @@
                 Entrar
             </x-button>
 
+            {{--botao gov br--}}
+            <button
+                type="button"
+                {{--onclick="window.location.href='{{ route('login.govbr') }}'"--}}
+
+                class="
+                    w-full
+                    flex items-center justify-center gap-1
+
+                    rounded-md
+                    border-1 border-blue-350
+
+                    bg-white
+                    px-6 py-2
+
+                    text-1xl font-semibold
+                    text-blue-600
+
+                    transition-all duration-200
+
+                    hover:bg-blue-50
+                    hover:shadow-md
+
+                    dark:bg-gray-800
+                    dark:border-blue-400
+                    dark:text-blue-400
+                    dark:hover:bg-gray-700
+                "
+            >
+                <span>Entrar com</span>
+
+                <span class="font-extrabold tracking-tight">
+                    <span class="text-blue-700 dark:text-blue-400">gov</span><span class="text-yellow-500">.</span><span class="text-green-600">br</span>
+                </span>
+            </button>
+
+
             {{-- 7️⃣ Lembrar-me --}}
             <div class="flex justify-left">
                 <x-checkbox
@@ -90,7 +127,7 @@
                     Desenvolvido por Centro de Tecnologia da Informação - CETI/CBMAP
                 </div>
             </div>
-                
+
         </form>
     </x-card>
 
@@ -102,7 +139,7 @@
         <div class="bg-white p-6 rounded shadow flex items-center gap-3 dark:bg-gray-800 dark:border-gray-700">
             <!-- Adicionado dark:border-white e dark:border-t-transparent -->
             <div class="animate-spin inline-block w-9 h-9 border-2 rounded-full border-gray-700 border-t-transparent dark:border-white dark:border-t-transparent"></div>
-            
+
             <div class="text-gray-900 dark:text-gray-100">Processando... aguarde.</div>
         </div>
     </div>

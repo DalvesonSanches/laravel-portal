@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Livewire\Portal\Home;
 use App\Livewire\Portal\SolicitacaoConsulta;
 use App\Livewire\Portal\EmpresasRegularizadas;
@@ -32,6 +33,8 @@ use App\Livewire\Auth\Downloads\DownloadsShow;
 use App\Livewire\Auth\Downloads\DownloadsForm;
 use App\Livewire\Auth\LogoutController;
 
+use App\Http\Controllers\Auth\AuthGovbr;
+
 // --- ÁREA PÚBLICA LOGIN (GUEST) ---
 // Usuário logado NÃO consegue ver essas páginas
 Route::middleware('guest')->group(function () {
@@ -45,7 +48,7 @@ Route::middleware('guest')->group(function () {
 // --- ÁREA RESTRITA LOGADO (AUTH) ---
 // Usuário deslogado NÃO consegue ver essas páginas
 Route::middleware('auth')->group(function () {
-    
+
     Route::get('/painel/solicitacao/index', MeusProtocolos::class)->name('meus.protocolos');//blade de meus protocolos
     Route::get('/painel/solicitacao/create', SolicitacoesCreate::class)->name('solicitacoes.create');//formulario de criação da solicitacao
     Route::get('/painel/solicitacao/show/{autenticidade}', SolicitacaoShow::class)->name('solicitacoes.show');//exibição da solicitacao em abas readonly false
@@ -55,10 +58,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/paienl/download/create', DownloadsForm::class)->name('downloads.create');//create do dowload
     Route::get('/painel/download/show/{downloads}', DownloadsShow::class)->name('downloads.show');//exibir registro download
     Route::get('/painel/download/edit/{downloads}', DownloadsForm::class)->name('downloads.edit');//edit do download
-    
+
     Route::get('/painel/users/index', UserIndex::class)->name('users.index');//listagem dos usuarios
     Route::get('/painel/users/show/{user}', UserShow::class)->name('users.show');//exibir usuario
     Route::get('/painel/users/edit/{user}', UserEdit::class)->name('users.edit');//edit do usuairo
+    //Route::get('/auth/govbr/callback', AuthGovbr::class)->name('login.govbr');//rota apos autenticacao gov br //https://sistec.cbm.ap.gov.br/auth/govbr/callback/callback
+
     Route::post('/painel/logout', [LogoutController::class, 'logout'])->name('logout');//sair do sistema
 });
 
